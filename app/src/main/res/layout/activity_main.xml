@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.phaqlow.stag.ui.MainActivity">
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:id="@+id/play_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_play_bar">
+
+        <TextView
+            android:id="@+id/song_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/spacing_comfort"/>
+
+        <ImageButton
+            android:id="@+id/music_prev_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_prev"
+            style="@style/musicControlButtonSmall"
+            android:contentDescription="@string/img_prev_btn"/>
+
+        <ImageButton
+            android:id="@+id/music_play_pause_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_play"
+            style="@style/musicControlButtonLarge"
+            android:contentDescription="@string/img_play_pause_btn"/>
+
+        <ImageButton
+            android:id="@+id/music_next_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_next"
+            style="@style/musicControlButtonSmall"
+            android:contentDescription="@string/img_next_btn" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/border_width"
+    android:layout_marginBottom="@dimen/border_width"
+    android:background="@drawable/bg_rv_item"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_song"
+        android:tint="@color/gray_light"
+        android:layout_margin="@dimen/spacing_regular"
+        android:contentDescription="@string/img_info_song_icon"/>
+
+    <TextView
+        android:id="@+id/song_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_regular"
+        android:layout_marginBottom="@dimen/spacing_regular"
+        android:layout_marginEnd="@dimen/spacing_regular"
+        android:layout_weight="1"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:singleLine="true"
+        android:textAppearance="@android:style/TextAppearance.WindowTitle"/>
+
+    <ImageButton
+        android:id="@+id/delete_song"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/spacing_regular"
+        android:paddingBottom="@dimen/spacing_regular"
+        android:paddingEnd="@dimen/spacing_regular"
+        app:srcCompat="@drawable/ic_clear"
+        android:visibility="gone"
+        android:tint="@color/gray_light"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/img_info_add_tag"
+        tools:ignore="RtlSymmetry" />
+</LinearLayout>
