@@ -1,11 +1,11 @@
-package com.phaqlow.stag.ui
+package com.phaqlow.stag.ui.home
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jakewharton.rxbinding2.support.design.widget.RxTabLayout
+import com.jakewharton.rxbinding2.support.design.widget.selections
 import com.phaqlow.stag.R
 import com.phaqlow.stag.ui.songs.SongsListFragment
 import com.phaqlow.stag.ui.tags.TagsListFragment
@@ -36,7 +36,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViews() {
-        RxTabLayout.selections(tabs)
+        tabs.selections()
                 .subscribe { tab -> setTab(tab.position) }
                 .addTo(lifecycleDisposables)
 

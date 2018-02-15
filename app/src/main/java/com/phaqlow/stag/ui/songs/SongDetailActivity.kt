@@ -1,4 +1,4 @@
-package com.phaqlow.stag.ui.tags
+package com.phaqlow.stag.ui.songs
 
 import android.app.Dialog
 import android.os.Bundle
@@ -8,36 +8,36 @@ import android.support.v7.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.view.clicks
 import com.phaqlow.stag.R
 import com.phaqlow.stag.app.App
+import com.phaqlow.stag.persistence.dao.Songs
 import com.phaqlow.stag.persistence.dao.TagSongJoins
-import com.phaqlow.stag.persistence.dao.Tags
 import com.phaqlow.stag.persistence.entity.Song
 import com.phaqlow.stag.persistence.entity.Tag
-import com.phaqlow.stag.ui.songs.SongsCompactRecyclerAdapter
+import com.phaqlow.stag.ui.tags.TagsCompactRecyclerAdapter
 import com.phaqlow.stag.util.collections.RxSortedList
 import com.phaqlow.stag.util.setVisible
 import com.r0adkll.slidr.Slidr
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import kotlinx.android.synthetic.main.activity_song_detail.*
 
-import kotlinx.android.synthetic.main.activity_tag_detail.*
 import javax.inject.Inject
 
 
-class TagDetailActivity : AppCompatActivity(), SongsCompactRecyclerAdapter.ItemActionListener {
-    @Inject lateinit var tagsDb: Tags
+class SongDetailActivity : AppCompatActivity(), TagsCompactRecyclerAdapter.ItemActionListener {
+    @Inject lateinit var songsDb: Songs
     @Inject lateinit var tagSongJoinsDb: TagSongJoins
     private val lifecycleDisposables = CompositeDisposable()
 
-    private lateinit var tag: Tag
-    private var songs = RxSortedList<Song>(compareBy { song -> song.name })
-    private var songsRecyclerAdapter = SongsCompactRecyclerAdapter(songs, this)
+    private lateinit var song: Song
+    private var tags = RxSortedList<Tag>(compareBy { tag -> tag.name })
+    private var tagsRecyclerAdapter = TagsCompactRecyclerAdapter(tags, this)
 
     private lateinit var deleteConfirmationDialog: Dialog
 
     private var currentMode = MODE_VIEW
 
     companion object {
-        const val TAG_ID_EXTRA = "TAG_ID"
+        const val SONG_ID_EXTRA = "SONG_ID"
 
         private const val MODE_VIEW = 0
         private const val MODE_EDIT = 1
@@ -45,7 +45,7 @@ class TagDetailActivity : AppCompatActivity(), SongsCompactRecyclerAdapter.ItemA
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tag_detail)
+        setContentView(R.layout.activity_song_detail)
         Slidr.attach(this)
         (application as App).appComponent.inject(this)
 
@@ -55,15 +55,15 @@ class TagDetailActivity : AppCompatActivity(), SongsCompactRecyclerAdapter.ItemA
     }
 
     private fun initViews() {
-        songs_compact_list_rv.layoutManager = LinearLayoutManager(this)
-        songsRecyclerAdapter.setHasStableIds(true)
-        songs_compact_list_rv.adapter = songsRecyclerAdapter
+        tags_compact_list_rv.layoutManager = LinearLayoutManager(this)
+        tagsRecyclerAdapter.setHasStableIds(true)
+        tags_compact_list_rv.adapter = tagsRecyclerAdapter
 
         deleteConfirmationDialog = AlertDialog.Builder(this)
-                .setTitle(R.string.tag_delete)
-                .setMessage(R.string.tag_delete_confirmation)
+                .setTitle(R.string.song_delete)
+                .setMessage(R.string.song_delete_confirmation)
                 .setPositiveButton(R.string.delete) { _, _ ->
-                    tagsDb.deleteTag(tag)
+                    songsDb.deleteSong(song)
                             .subscribe { finish() }
                             .addTo(lifecycleDisposables)
                 }.setNegativeButton(R.string.cancel, null)
@@ -72,54 +72,46 @@ class TagDetailActivity : AppCompatActivity(), SongsCompactRecyclerAdapter.ItemA
 
     private fun switchToEditMode() {
         currentMode = MODE_EDIT
-        tag_name.setVisible(false)
-        tag_delete_btn.setVisible(true)
-        tag_description.isEnabled = true
+        song_name.setVisible(false)
+        song_delete_btn.setVisible(true)
         edit_save_fab.setImageResource(R.drawable.ic_save)
-        songsRecyclerAdapter.setEditable(true)
+        tagsRecyclerAdapter.setEditable(true)
     }
 
     private fun saveAndSwitchToViewMode() {
-        val newTagDescription = tag_description.text.toString()
-        if (tag.description != newTagDescription || tag.numSongs != songs.size) {
-            tag.description = newTagDescription
-            tag.numSongs = songs.size
-            tagsDb.updateTag(tag).subscribe().addTo(lifecycleDisposables)
-        }
+        // TODO: save anything that was updated
         switchToViewMode()
     }
 
     private fun switchToViewMode() {
         currentMode = MODE_VIEW
-        tag_name.setVisible(true)
-        tag_delete_btn.setVisible(false)
-        tag_description.isEnabled = false
+        song_name.setVisible(true)
+        song_delete_btn.setVisible(false)
         edit_save_fab.setImageResource(R.drawable.ic_edit)
-        songsRecyclerAdapter.setEditable(false)
+        tagsRecyclerAdapter.setEditable(false)
     }
 
-    override fun onSongRemove(song: Song) {
+    override fun onTagRemove(tag: Tag) {
         tagSongJoinsDb.deleteTagSongJoin(tag.id, song.id)
-                .subscribe { songs.remove(song) }
+                .subscribe { tags.remove(tag) }
                 .addTo(lifecycleDisposables)
     }
 
     private fun loadData() {
-        intent.getLongExtra(TAG_ID_EXTRA, -1L).takeIf { it != -1L }?.let { tagId ->
-            tagsDb.getTag(tagId)
-                    .subscribe { t -> populateViewsWithTagData(t) }
+        intent.getLongExtra(SONG_ID_EXTRA, -1L).takeIf { it != -1L }?.let { songId ->
+            songsDb.getSong(songId)
+                    .subscribe { s -> populateViewsWithSongData(s) }
                     .addTo(lifecycleDisposables)
 
-            tagSongJoinsDb.getSongsForTag(Tag(tagId))
-                    .subscribe { s -> songs.setAll(s) }
+            tagSongJoinsDb.getTagsForSong(Song(songId))
+                    .subscribe { t -> tags.setAll(t) }
                     .addTo(lifecycleDisposables)
         }
     }
 
-    private fun populateViewsWithTagData(t: Tag) {
-        tag = t
-        tag_name.text = tag.name
-        if (tag.description != null) tag_description.setText(tag.description)
+    private fun populateViewsWithSongData(s: Song) {
+        song = s
+        song_name.text = song.name
     }
 
     private fun setRxBindings() {
@@ -130,7 +122,7 @@ class TagDetailActivity : AppCompatActivity(), SongsCompactRecyclerAdapter.ItemA
             }
         }.addTo(lifecycleDisposables)
 
-        tag_delete_btn.clicks().subscribe {
+        song_delete_btn.clicks().subscribe {
             deleteConfirmationDialog.show()
         }
     }

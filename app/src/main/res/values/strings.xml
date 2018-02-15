@@ -3,25 +3,32 @@
     <string name="tab_tags">TAGS</string>
     <string name="tab_songs">SONGS</string>
 
+    <string name="clear_text">Clear Text</string>
     <string name="search_tag_hint"><i>\u0020Search or Add Tags</i></string>
-    <string name="img_info_add_tag">Add Tag</string>
-    <string name="img_info_clear_text">Clear Text</string>
-    <string name="img_info_delete_tag">Delete Tag</string>
-    <string name="img_info_search_tag">Search Tag</string>
-    <string name="img_info_tag_icon">Tag Icon</string>
-    <string name="template_tag_num_songs">%1$d songs</string>
-    <string name="template_tag_num_songs_one">%1$d song</string>
-
     <string name="search_song_hint"><i>\u0020Search Songs</i></string>
-    <string name="img_info_add_song">Add Song</string>
-    <string name="img_info_delete_song">Delete Song</string>
-    <string name="img_info_search_song">Search Song</string>
-    <string name="img_info_song_icon">Song Icon</string>
 
-    <string name="img_play_pause_btn">Play/Pause</string>
-    <string name="img_prev_btn">Previous</string>
-    <string name="img_next_btn">Next</string>
-
-    <string name="tag_name_hint">Tag Name</string>
+    <string name="tag_add">Add Tag</string>
+    <string name="tag_delete">Delete Tag</string>
+    <string name="tag_search">Search Tag</string>
+    <string name="tag_icon">Tag Icon</string>
+    <string name="tag_template_num_songs">%1$d songs</string>
+    <string name="tag_template_num_songs_one">%1$d song</string>
     <string name="tag_description_hint">Tag Description</string>
+    <string name="tag_delete_confirmation">Are you sure you want to delete this tag?</string>
+
+    <string name="song_add">Add Song</string>
+    <string name="song_delete">Delete Song</string>
+    <string name="song_search">Search Song</string>
+    <string name="song_icon">Song Icon</string>
+    <string name="song_delete_confirmation">Are you sure you want to delete this song?</string>
+
+    <string name="play_pause">Play/Pause</string>
+    <string name="prev">Previous</string>
+    <string name="next">Next</string>
+
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="search">Search</string>
+    <string name="label_icon">Label Icon</string>
+
 </resources>

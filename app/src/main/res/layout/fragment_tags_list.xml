@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.phaqlow.stag.ui.tags.TagsListFragment">
+    tools:context=".ui.tags.TagsListFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -57,15 +57,15 @@
             app:srcCompat="@drawable/ic_search"
             style="@style/searchFieldContextButton"
             android:visibility="visible"
-            android:contentDescription="@string/img_info_search_tag"/>
+            android:contentDescription="@string/tag_search"/>
 
         <ImageButton
-            android:id="@+id/clear_tag_btn"
+            android:id="@+id/clear_search_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_clear"
             style="@style/searchFieldContextButton"
-            android:contentDescription="@string/img_info_clear_text"/>
+            android:contentDescription="@string/clear_text"/>
 
         <ImageButton
             android:id="@+id/add_tag_btn"
@@ -73,6 +73,6 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_add"
             style="@style/searchFieldContextButton"
-            android:contentDescription="@string/img_info_add_tag"/>
+            android:contentDescription="@string/tag_add"/>
     </LinearLayout>
 </LinearLayout>

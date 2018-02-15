@@ -2,6 +2,7 @@ package com.phaqlow.stag.app.dagger
 
 import com.phaqlow.stag.ui.MainActivity
 import com.phaqlow.stag.ui.playlist.PlaylistFragment
+import com.phaqlow.stag.ui.songs.SongDetailActivity
 import com.phaqlow.stag.ui.songs.SongsListFragment
 import com.phaqlow.stag.ui.tags.TagDetailActivity
 import com.phaqlow.stag.ui.tags.TagsListFragment
@@ -19,4 +20,5 @@ interface AppComponent {
     fun inject(target: SongsListFragment)
 
     fun inject(target: TagDetailActivity)
+    fun inject(target: SongDetailActivity)
 }

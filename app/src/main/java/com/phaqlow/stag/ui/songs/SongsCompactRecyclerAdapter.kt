@@ -3,18 +3,17 @@ package com.phaqlow.stag.ui.songs
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jakewharton.rxbinding2.view.RxView
+import com.jakewharton.rxbinding2.view.clicks
 import com.phaqlow.stag.R
 import com.phaqlow.stag.persistence.entity.Song
-import com.phaqlow.stag.util.FilterableObservableList
-import com.phaqlow.stag.util.ObservableList
-import com.phaqlow.stag.util.ResponsiveRecyclerAdapter
-import com.phaqlow.stag.util.setViewVisibility
+import com.phaqlow.stag.util.collections.RxList
+import com.phaqlow.stag.util.adapters.ResponsiveRecyclerAdapter
+import com.phaqlow.stag.util.setVisible
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.rv_item_song_compact.view.*
 
 
-class SongsCompactRecyclerAdapter(itemsList: ObservableList<Song>,
+class SongsCompactRecyclerAdapter(itemsList: RxList<Song>,
                                   private val itemActionHandler: ItemActionListener)
     : ResponsiveRecyclerAdapter<Song>(itemsList) {
     private var editable: Boolean = false
@@ -29,14 +28,14 @@ class SongsCompactRecyclerAdapter(itemsList: ObservableList<Song>,
     }
 
     inner class SongCompactViewHolder(v: View) : ResponsiveViewHolder(v) {
-        override fun bindItem(t: Song) {
-            super.bindItem(t)
+        override fun bindItem(data: Song) {
+            super.bindItem(data)
 
             item?.let { song ->
                 view.song_name.text = song.name
-                setViewVisibility(view.delete_song, editable)
+                view.delete_song.setVisible(editable)
 
-                RxView.clicks(view.delete_song)
+                view.delete_song.clicks()
                         .subscribe { itemActionHandler.onSongRemove(song) }
                         .addTo(disposables)
             }

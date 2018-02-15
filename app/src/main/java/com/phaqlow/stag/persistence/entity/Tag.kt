@@ -5,6 +5,7 @@ import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 
+
 private const val MAX_TAG_LEN: Int = 20
 private const val MAX_DESCRIPTION_LEN: Int = 200
 

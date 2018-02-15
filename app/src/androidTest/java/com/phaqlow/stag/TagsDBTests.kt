@@ -31,20 +31,13 @@ class TagsDBTests {
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
         tags = Tags(db.tagDao())
         songs = Songs(db.songDao())
-        tagSongJoins = TagSongJoins(db.tagSongJoinDao())
+        tagSongJoins = TagSongJoins(db.tagSongJoinDao(), db.tagDao())
     }
 
     @Test
-    fun t01_Add() {
-        assertThat(tags.getAllTags().blockingGet(), equalTo(emptyList()))
-        val tag1 = Tag(1, "tag1", null, 2)
-        assertThat(tags.insertTag(tag1).blockingGet().name, equalTo(tag1.name))
-    }
-
-    @Test
-    fun t10_GetSongsForTag() {
-        val tagId1 = tags.insertTag(Tag("T1")).blockingGet().id
-        val tagId2 = tags.insertTag(Tag("T2")).blockingGet().id
+    fun t01_GetSongsForTag() {
+        val tagId1 = tags.insertTag(Tag("T1")).blockingGet()
+        val tagId2 = tags.insertTag(Tag("T2")).blockingGet()
         val songId1 = songs.insertSong(Song("S1")).blockingGet().id
         val songId2 = songs.insertSong(Song("S2")).blockingGet().id
         val songId3 = songs.insertSong(Song("S3")).blockingGet().id

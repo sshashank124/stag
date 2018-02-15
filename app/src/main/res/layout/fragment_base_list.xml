@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.songs.SongsListFragment">
+    tools:context=".ui.home.BaseListFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,13 +16,12 @@
         android:padding="@dimen/spacing_compact">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/songs_list_rv"
+            android:id="@+id/list_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-         <!-- TODO: change icon to tag + add -->
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/add_to_tag_btn"
+            android:id="@+id/multi_select_action_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -30,7 +29,6 @@
             android:layout_margin="@dimen/spacing_compact"
             android:visibility="gone"
             app:fabSize="mini"
-            app:srcCompat="@drawable/ic_add"
             android:tint="@color/white"/>
     </RelativeLayout>
 
@@ -41,24 +39,24 @@
         android:gravity="center_vertical">
 
         <EditText
-            android:id="@+id/search_song_input"
+            android:id="@+id/search_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/spacing_regular"
             android:inputType="text"
             android:maxLength="20"
-            android:hint="@string/search_song_hint"
+            android:hint="@string/search_tag_hint"
             android:background="@android:color/transparent"/>
 
         <ImageView
-            android:id="@+id/search_song_icon"
+            android:id="@+id/search_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_search"
             style="@style/searchFieldContextButton"
             android:visibility="visible"
-            android:contentDescription="@string/song_search"/>
+            android:contentDescription="@string/search"/>
 
         <ImageButton
             android:id="@+id/clear_search_btn"

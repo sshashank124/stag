@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_prev"
             style="@style/musicControlButtonSmall"
-            android:contentDescription="@string/img_prev_btn"/>
+            android:contentDescription="@string/prev"/>
 
         <ImageButton
             android:id="@+id/music_play_pause_btn"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_play"
             style="@style/musicControlButtonLarge"
-            android:contentDescription="@string/img_play_pause_btn"/>
+            android:contentDescription="@string/play_pause"/>
 
         <ImageButton
             android:id="@+id/music_next_btn"
@@ -50,6 +50,6 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_next"
             style="@style/musicControlButtonSmall"
-            android:contentDescription="@string/img_next_btn" />
+            android:contentDescription="@string/next" />
     </LinearLayout>
 </LinearLayout>

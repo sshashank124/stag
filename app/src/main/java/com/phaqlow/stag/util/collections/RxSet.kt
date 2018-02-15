@@ -1,10 +1,10 @@
-package com.phaqlow.stag.util
+package com.phaqlow.stag.util.collections
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 
 
-class ObservableSet<T> {
+class RxSet<T> {
     val selections = mutableSetOf<T>()
 
     private val subject = PublishSubject.create<Int>()

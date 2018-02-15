@@ -20,7 +20,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.tags.TagDetailActivity"
+            android:name="com.phaqlow.stag.ui.tags.TagDetailActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppThemeTranslucent"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.phaqlow.stag.ui.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.phaqlow.stag.ui.songs.SongDetailActivity"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppThemeTranslucent"
             android:screenOrientation="portrait">

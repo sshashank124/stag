@@ -26,4 +26,10 @@ interface TagDao {
 
     @Query("SELECT id, name, numSongs FROM tags")
     fun getAllTags(): Single<List<Tag>>
+
+    @Query("UPDATE tags SET numSongs = numSongs + 1 WHERE id = :id")
+    fun incrementNumSongs(id: Long)
+
+    @Query("UPDATE tags SET numSongs = numSongs - 1 WHERE id = :id")
+    fun decrementNumSongs(id: Long)
 }

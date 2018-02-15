@@ -9,17 +9,18 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-// TODO: add empty and error conditions to this class in case a DB operation fails (Maybe vs Single)
-class TagSongJoins(private val tagSongJoinDao: TagSongJoinDao) {
+class TagSongJoins(private val tagSongJoinDao: TagSongJoinDao, private val tagDao: TagDao) {
 
     fun insertTagSongJoin(tagId: Long, songId: Long): Completable =
             Completable.fromAction {
                 tagSongJoinDao.insertTagSongJoin(TagSongJoin(0, tagId, songId))
+                tagDao.incrementNumSongs(tagId)
             }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
     fun deleteTagSongJoin(tagId: Long, songId: Long): Completable =
             Completable.fromAction {
                 tagSongJoinDao.deleteTagSongJoin(tagId, songId)
+                tagDao.decrementNumSongs(tagId)
             }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
     fun getSongsForTag(tag: Tag): Single<List<Song>> =

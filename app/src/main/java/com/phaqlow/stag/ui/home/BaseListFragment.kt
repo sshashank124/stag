@@ -1,4 +1,4 @@
-package com.phaqlow.stag.ui.tags
+package com.phaqlow.stag.ui.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,6 +15,8 @@ import com.phaqlow.stag.app.App
 import com.phaqlow.stag.persistence.dao.TagSongJoins
 import com.phaqlow.stag.persistence.dao.Tags
 import com.phaqlow.stag.persistence.entity.Tag
+import com.phaqlow.stag.ui.tags.TagDetailActivity
+import com.phaqlow.stag.ui.tags.TagsRecyclerAdapter
 import com.phaqlow.stag.util.collections.RxFilterableSortedList
 import com.phaqlow.stag.util.setVisible
 import io.reactivex.Observable
@@ -27,21 +29,18 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
-class TagsListFragment : Fragment() {
+abstract class BaseListFragment<T>(sortComparator: Comparator<T>) : Fragment() {
     @Inject lateinit var tagsDb: Tags
     @Inject lateinit var tagSongJoinsDb: TagSongJoins
 
-    private val tagsList = RxFilterableSortedList<Tag>(compareBy { tag -> tag.name })
-    private val tagsRecyclerAdapter = TagsRecyclerAdapter(tagsList)
+    private val itemsList = RxFilterableSortedList(sortComparator)
+    private val tagsRecyclerAdapter = TagsRecyclerAdapter(itemsList)
     private val lifecycleDisposables = CompositeDisposable()
 
-    companion object {
-        fun newInstance() = TagsListFragment()
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View
-            = inflater.inflate(R.layout.fragment_tags_list, container, false)
+                              savedInstanceState: Bundle?): View {
+        val parentView = inflater.inflate(R.layout.fragment_tags_list, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -16,7 +16,7 @@
         android:layout_marginEnd="@dimen/spacing_regular"
         app:srcCompat="@drawable/ic_tag"
         android:tint="@color/gray_light"
-        android:contentDescription="@string/img_info_tag_icon"/>
+        android:contentDescription="@string/tag_icon"/>
 
     <TextView
         android:id="@+id/tag_name"

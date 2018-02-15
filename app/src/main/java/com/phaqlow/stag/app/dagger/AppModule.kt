@@ -28,5 +28,5 @@ class AppModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun provideTagSongJoins(db: AppDatabase): TagSongJoins = TagSongJoins(db.tagSongJoinDao())
+    fun provideTagSongJoins(db: AppDatabase): TagSongJoins = TagSongJoins(db.tagSongJoinDao(), db.tagDao())
 }

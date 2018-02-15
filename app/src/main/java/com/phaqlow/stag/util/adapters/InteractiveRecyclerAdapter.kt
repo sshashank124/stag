@@ -1,17 +1,20 @@
-package com.phaqlow.stag.util
+package com.phaqlow.stag.util.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.jakewharton.rxbinding2.view.RxView
+import com.jakewharton.rxbinding2.view.clicks
+import com.jakewharton.rxbinding2.view.longClicks
+import com.phaqlow.stag.util.collections.RxList
+import com.phaqlow.stag.util.collections.RxSet
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.subjects.PublishSubject
 
 
-abstract class InteractiveRecyclerAdapter<T>(itemsList: FilterableObservableList<T>)
+abstract class InteractiveRecyclerAdapter<T>(itemsList: RxList<T>)
     : ResponsiveRecyclerAdapter<T>(itemsList) {
     private var multiSelectMode = false
-    private val multiSelector = ObservableSet<T>()
+    private val multiSelector = RxSet<T>()
     val selections get() = multiSelector.selections.toList()
 
     private val clicksSubject = PublishSubject.create<T>()
@@ -57,15 +60,15 @@ abstract class InteractiveRecyclerAdapter<T>(itemsList: FilterableObservableList
     }
 
     open inner class InteractiveViewHolder(v: View) : ResponsiveViewHolder(v) {
-        override fun bindItem(t: T) {
-            super.bindItem(t)
+        override fun bindItem(data: T) {
+            super.bindItem(data)
 
             item?.let { item ->
-                RxView.clicks(view)
+                view.clicks()
                         .subscribe { itemClick(adapterPosition, item) }
                         .addTo(disposables)
 
-                RxView.longClicks(view)
+                view.longClicks()
                         .subscribe { itemLongClick(adapterPosition, item) }
                         .addTo(disposables)
             }
