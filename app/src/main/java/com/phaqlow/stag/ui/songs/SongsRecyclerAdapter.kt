@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.phaqlow.stag.R
 import com.phaqlow.stag.persistence.entity.Song
-import com.phaqlow.stag.util.adapters.InteractiveRecyclerAdapter
+import com.phaqlow.stag.util.ui.InteractiveRecyclerAdapter
 import com.phaqlow.stag.util.collections.RxList
 import kotlinx.android.synthetic.main.rv_item_song.view.*
 

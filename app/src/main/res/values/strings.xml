@@ -1,34 +1,28 @@
 <resources>
+    <!-- APP strings -->
     <string name="app_name">Stag</string>
     <string name="tab_tags">TAGS</string>
     <string name="tab_songs">SONGS</string>
 
-    <string name="clear_text">Clear Text</string>
-    <string name="search_tag_hint"><i>\u0020Search or Add Tags</i></string>
-    <string name="search_song_hint"><i>\u0020Search Songs</i></string>
-
-    <string name="tag_add">Add Tag</string>
-    <string name="tag_delete">Delete Tag</string>
-    <string name="tag_search">Search Tag</string>
-    <string name="tag_icon">Tag Icon</string>
-    <string name="tag_template_num_songs">%1$d songs</string>
-    <string name="tag_template_num_songs_one">%1$d song</string>
-    <string name="tag_description_hint">Tag Description</string>
-    <string name="tag_delete_confirmation">Are you sure you want to delete this tag?</string>
-
-    <string name="song_add">Add Song</string>
-    <string name="song_delete">Delete Song</string>
-    <string name="song_search">Search Song</string>
-    <string name="song_icon">Song Icon</string>
-    <string name="song_delete_confirmation">Are you sure you want to delete this song?</string>
-
+    <!-- PLAYLIST strings -->
     <string name="play_pause">Play/Pause</string>
     <string name="prev">Previous</string>
     <string name="next">Next</string>
 
-    <string name="delete">Delete</string>
+    <!-- ITEM strings -->
+    <string name="search"><i>\u0020Search</i></string>
     <string name="cancel">Cancel</string>
-    <string name="search">Search</string>
-    <string name="label_icon">Label Icon</string>
+    <string name="delete">Delete</string>
+    <string name="item_delete_confirmation">Are you sure you want to delete this item?</string>
 
+    <!-- TAG strings -->
+    <string name="tag_icon">Tag Icon</string>
+    <string name="tag_add">Add Tag</string>
+    <string name="tag_delete">Delete Tag</string>
+    <string name="tag_template_num_songs">%1$d songs</string>
+    <string name="tag_template_num_songs_one">%1$d song</string>
+
+    <!-- SONG strings -->
+    <string name="song_icon">Song Icon</string>
+    <string name="song_delete">Delete Song</string>
 </resources>

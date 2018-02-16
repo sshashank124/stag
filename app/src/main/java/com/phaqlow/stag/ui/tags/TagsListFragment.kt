@@ -1,161 +1,82 @@
 package com.phaqlow.stag.ui.tags
 
+import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.LinearLayout
 import com.jakewharton.rxbinding2.view.clicks
-import com.jakewharton.rxbinding2.widget.textChanges
 import com.phaqlow.stag.R
-import com.phaqlow.stag.app.App
 import com.phaqlow.stag.persistence.dao.TagSongJoins
 import com.phaqlow.stag.persistence.dao.Tags
 import com.phaqlow.stag.persistence.entity.Tag
-import com.phaqlow.stag.util.collections.RxFilterableSortedList
+import com.phaqlow.stag.ui.home.BaseDetailActivity
+import com.phaqlow.stag.ui.home.BaseListFragment
 import com.phaqlow.stag.util.setVisible
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.withLatestFrom
-import kotlinx.android.synthetic.main.fragment_tags_list.*
-import java.util.concurrent.TimeUnit
+import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.android.synthetic.main.tags_list_additional.*
 import javax.inject.Inject
 
 
-class TagsListFragment : Fragment() {
+class TagsListFragment : BaseListFragment<Tag>() {
     @Inject lateinit var tagsDb: Tags
     @Inject lateinit var tagSongJoinsDb: TagSongJoins
 
-    private val tagsList = RxFilterableSortedList<Tag>(compareBy { tag -> tag.name })
-    private val tagsRecyclerAdapter = TagsRecyclerAdapter(tagsList)
-    private val lifecycleDisposables = CompositeDisposable()
-
-    companion object {
-        fun newInstance() = TagsListFragment()
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        itemsRecyclerAdapter = TagsRecyclerAdapter(itemsList)
+        itemsDb = tagsDb
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View
-            = inflater.inflate(R.layout.fragment_tags_list, container, false)
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        (activity!!.application as App).appComponent.inject(this)
-
-        initViews()
-        setRxBindings()
+    override fun inflateAdditionalViews(rootView: View) {
+        val searchBar = rootView.findViewById<LinearLayout>(R.id.search_bar)
+        layoutInflater.inflate(R.layout.tags_list_additional, searchBar)
     }
 
-    override fun onResume() {
-        super.onResume()
-        loadData()
-    }
-
-    private fun initViews() {
-        tags_list_rv.layoutManager = LinearLayoutManager(activity)
-        tagsRecyclerAdapter.setHasStableIds(true)
-        tags_list_rv.adapter = tagsRecyclerAdapter
-    }
-
-    private fun loadData() {
-        tagsDb.getAllTags()
-                .subscribe { tags -> tagsList.setAll(tags) }
-                .addTo(lifecycleDisposables)
-    }
-
-    private fun setRxBindings() {
-        val searchBoxChanges = search_tag_input.textChanges()
-                .map { searchCharSeq -> searchCharSeq.trim().toString() }.publish()
-
-        // items clearBtn and searchIcon visibility
-        searchBoxChanges
-                .subscribe { searchText ->
-                    clear_search_btn.setVisible(searchText.isNotEmpty())
-                    search_tag_icon.setVisible(searchText.isEmpty())
-                }.addTo(lifecycleDisposables)
+    override fun setRxBindings() {
+        super.setRxBindings()
 
         // items addBtn visibility
-        Observable.merge(searchBoxChanges, tagsList.changes)
-                .subscribe { setAddBtnVisibility() }
-                .addTo(lifecycleDisposables)
-
-        // filter tags
-        searchBoxChanges
-                .debounce(500, TimeUnit.MILLISECONDS)
-                .distinctUntilChanged()
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe { searchText ->
-                    tagsList.filter { tag ->
-                        tag.name.toLowerCase().contains(searchText.toLowerCase())
-                    }
-                }.addTo(lifecycleDisposables)
+        Observable.merge(searchBoxChanges, itemsList.changes).register { setAddBtnVisibility() }
 
         // add tag
         add_tag_btn.clicks()
                 .withLatestFrom(searchBoxChanges)
-                .subscribe { (_, tagName) -> addTag(tagName) }
-                .addTo(lifecycleDisposables)
-
-        // clear search box
-        clear_search_btn.clicks()
-                .subscribe { clearSearchBoxText() }
-                .addTo(lifecycleDisposables)
-
-        // connect ConnectableObservables to begin emitting
-        searchBoxChanges.connect().addTo(lifecycleDisposables)
-
-        // tags recycler view item click
-        tagsRecyclerAdapter.itemClicks
-                .subscribe { tag -> showTagDetails(tag) }
-                .addTo(lifecycleDisposables)
-
-        tagsRecyclerAdapter.selectModeChanges
-                .subscribe { inSelectMode -> play_selected_tags_btn.setVisible(inSelectMode) }
-                .addTo(lifecycleDisposables)
-
-        play_selected_tags_btn.clicks()
-                .subscribe { sendPlayRequest() }
-                .addTo(lifecycleDisposables)
+                .register { (_, tagName) -> addTag(tagName) }
     }
 
-    private fun showTagDetails(tag: Tag) {
+    override fun filterItemsOnSearchText(searchText: String) {
+        val searchTextLowerCase = searchText.toLowerCase()
+        itemsList.filter { tag -> tag.name.toLowerCase().contains(searchTextLowerCase) }
+    }
+
+    override fun launchItemDetailsActivity(item: Tag) {
         startActivity(Intent(context, TagDetailActivity::class.java)
-                .putExtra(TagDetailActivity.TAG_ID_EXTRA, tag.id))
+                .putExtra(BaseDetailActivity.ITEM_ID_EXTRA, item.id))
     }
 
-    private fun sendPlayRequest() {
+    override fun onFabClicked() {
         // TODO: implement sending play request to MainActivity
-        tagSongJoinsDb.getSongsForTags(tagsRecyclerAdapter.selections)
-                .subscribe { songs -> Log.d("Stag", songs.toString()) }
-                .addTo(lifecycleDisposables)
-        tagsRecyclerAdapter.clearSelections()
+        tagSongJoinsDb.getSongsForTags(itemsRecyclerAdapter.selections)
+                .register { songs -> Log.d("Stag", songs.toString()) }
+        itemsRecyclerAdapter.clearSelections()
     }
 
     private fun addTag(tagName: String) {
         val tag = Tag(tagName)
-        tagsDb.insertTag(tag)
-                .subscribe { tagId ->
+        itemsDb.insertItem(tag)
+                .register { tagId ->
                     tag.id = tagId
-                    tagsList.add(tag)
-                }.addTo(lifecycleDisposables)
+                    itemsList.add(tag)
+                }
     }
 
     private fun setAddBtnVisibility() {
-        val searchText = search_tag_input.text.trim().toString()
+        val searchText = search_input.text.trim().toString()
         val isUniqueNonEmptyName = searchText.isNotEmpty()
-                && tagsList.fullData.none { tag -> tag.name == searchText }
+                && itemsList.fullData.none { tag -> tag.name == searchText }
         add_tag_btn.setVisible(isUniqueNonEmptyName)
-    }
-
-    private fun clearSearchBoxText() = search_tag_input.text.clear()
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        lifecycleDisposables.clear()
     }
 }

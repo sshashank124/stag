@@ -1,7 +1,7 @@
 package com.phaqlow.stag.util.collections
 
 
-class RxFilterableSortedList<T>(comparator: Comparator<T>) : RxSortedList<T>(comparator) {
+class RxFilterableSortedList<T : Comparable<T>> : RxSortedList<T>() {
     private val referenceList = mutableListOf<T>()
     private var filterConstraint: (T) -> Boolean = { true }
 

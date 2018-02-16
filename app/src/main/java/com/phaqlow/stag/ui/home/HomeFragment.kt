@@ -1,7 +1,6 @@
 package com.phaqlow.stag.ui.home
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,17 +8,13 @@ import com.jakewharton.rxbinding2.support.design.widget.selections
 import com.phaqlow.stag.R
 import com.phaqlow.stag.ui.songs.SongsListFragment
 import com.phaqlow.stag.ui.tags.TagsListFragment
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import com.phaqlow.stag.util.ui.LifecycleFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
-class HomeFragment : Fragment() {
-    private val lifecycleDisposables = CompositeDisposable()
-
+class HomeFragment : LifecycleFragment() {
     companion object {
         const val TAG = "Home Fragment"
-        fun newInstance() = HomeFragment()
         const val TAB_TAGS = 0
         const val TAB_SONGS = 1
     }
@@ -32,31 +27,20 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initViews()
-        setRxBindings()
     }
 
     private fun initViews() {
-        tabs.selections()
-                .subscribe { tab -> setTab(tab.position) }
-                .addTo(lifecycleDisposables)
+        tabs.selections().register { tab -> setTab(tab.position) }
 
         tabs.getTabAt(TAB_TAGS)?.select()
     }
 
-    private fun setRxBindings() {
-    }
-
     private fun setTab(tab: Int) {
         val fragment = when(tab) {
-            TAB_TAGS -> TagsListFragment.newInstance()
-            TAB_SONGS -> SongsListFragment.newInstance()
-            else -> TagsListFragment.newInstance()
+            TAB_TAGS -> TagsListFragment()
+            TAB_SONGS -> SongsListFragment()
+            else -> TagsListFragment()
         }
         childFragmentManager.beginTransaction().replace(R.id.container, fragment).commit()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        lifecycleDisposables.clear()
     }
 }

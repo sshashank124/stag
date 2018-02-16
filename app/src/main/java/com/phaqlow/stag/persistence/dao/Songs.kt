@@ -1,31 +1,20 @@
 package com.phaqlow.stag.persistence.dao
 
 import com.phaqlow.stag.persistence.entity.Song
+import com.phaqlow.stag.util.ioToUiThread
 import io.reactivex.Completable
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 
-class Songs(private val songDao: SongDao) {
+class Songs(private val songDao: SongDao) : ItemsDb<Song> {
 
-    fun insertSong(song: Song): Single<Long> =
-            Single.fromCallable { songDao.insertSong(song) }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+    override fun insertItem(item: Song) = Single.fromCallable { songDao.insertSong(item) }.ioToUiThread()
 
-    fun deleteSong(song: Song): Completable =
-            Completable.fromAction { songDao.deleteSong(song) }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+    override fun updateItem(item: Song) = Completable.fromAction { songDao.updateSong(item) }.ioToUiThread()
 
-    fun getSong(id: Long): Single<Song> =
-            songDao.getSong(id)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+    override fun deleteItem(item: Song) = Completable.fromAction { songDao.deleteSong(item) }.ioToUiThread()
 
-    fun getAllSongs(): Single<List<Song>> =
-            songDao.getAllSongs()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+    override fun getItem(itemId: Long) = songDao.getSong(itemId).ioToUiThread()
+
+    override fun getAllItems() = songDao.getAllSongs().ioToUiThread()
 }

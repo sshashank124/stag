@@ -10,6 +10,14 @@
     android:background="@drawable/bg_rv_item"
     android:gravity="center_vertical">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_tag"
+        android:tint="@color/gray_light"
+        android:layout_margin="@dimen/spacing_regular"
+        android:contentDescription="@string/tag_icon"/>
+
     <TextView
         android:id="@+id/tag_name"
         android:layout_width="0dp"

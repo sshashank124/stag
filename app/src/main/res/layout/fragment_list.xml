@@ -16,12 +16,12 @@
         android:padding="@dimen/spacing_compact">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_rv"
+            android:id="@+id/item_list_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/multi_select_action_btn"
+            android:id="@+id/context_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -29,10 +29,12 @@
             android:layout_margin="@dimen/spacing_compact"
             android:visibility="gone"
             app:fabSize="mini"
+            app:srcCompat="@drawable/ic_play"
             android:tint="@color/white"/>
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/gray"
@@ -46,7 +48,7 @@
             android:padding="@dimen/spacing_regular"
             android:inputType="text"
             android:maxLength="20"
-            android:hint="@string/search_tag_hint"
+            android:hint="@string/search"
             android:background="@android:color/transparent"/>
 
         <ImageView
@@ -64,6 +66,6 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_clear"
             style="@style/searchFieldContextButton"
-            android:contentDescription="@string/clear_text"/>
+            android:contentDescription="@string/cancel"/>
     </LinearLayout>
 </LinearLayout>

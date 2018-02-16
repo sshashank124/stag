@@ -1,6 +1,7 @@
 package com.phaqlow.stag.util.collections
 
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.phaqlow.stag.util.onUi
+import com.phaqlow.stag.util.toUi
 import io.reactivex.subjects.PublishSubject
 
 
@@ -8,7 +9,7 @@ class RxSet<T> {
     val selections = mutableSetOf<T>()
 
     private val subject = PublishSubject.create<Int>()
-    val changes = subject.observeOn(AndroidSchedulers.mainThread()).publish().refCount()
+    val changes = subject.onUi().publish().refCount()
 
     fun toggle(value: T) {
         if (!selections.add(value)) selections.remove(value)

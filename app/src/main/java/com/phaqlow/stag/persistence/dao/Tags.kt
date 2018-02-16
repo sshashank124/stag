@@ -1,37 +1,21 @@
 package com.phaqlow.stag.persistence.dao
 
 import com.phaqlow.stag.persistence.entity.Tag
+import com.phaqlow.stag.util.ioToUiThread
 import io.reactivex.Completable
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 
 // TODO: add empty and error conditions to all DB accessor classes in case a DB operation fails (Maybe vs Single)
-class Tags(private val tagDao: TagDao) {
+class Tags(private val tagDao: TagDao) : ItemsDb<Tag> {
 
-    fun insertTag(tag: Tag): Single<Long> =
-            Single.fromCallable { tagDao.insertTag(tag) }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+    override fun insertItem(item: Tag) = Single.fromCallable { tagDao.insertTag(item) }.ioToUiThread()
 
-    fun updateTag(tag: Tag): Completable =
-            Completable.fromCallable { tagDao.updateTag(tag) }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+    override fun updateItem(item: Tag) = Completable.fromAction { tagDao.updateTag(item) }.ioToUiThread()
 
-    fun deleteTag(tag: Tag): Completable =
-            Completable.fromAction { tagDao.deleteTag(tag) }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+    override fun deleteItem(item: Tag) = Completable.fromAction { tagDao.deleteTag(item) }.ioToUiThread()
 
-    fun getTag(id: Long): Single<Tag> =
-            tagDao.getTag(id)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+    override fun getItem(itemId: Long) = tagDao.getTag(itemId).ioToUiThread()
 
-    fun getAllTags(): Single<List<Tag>> =
-            tagDao.getAllTags()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+    override fun getAllItems() = tagDao.getAllTags().ioToUiThread()
 }

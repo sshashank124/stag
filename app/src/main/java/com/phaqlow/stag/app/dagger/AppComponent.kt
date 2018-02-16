@@ -1,24 +1,15 @@
 package com.phaqlow.stag.app.dagger
 
-import com.phaqlow.stag.ui.MainActivity
-import com.phaqlow.stag.ui.playlist.PlaylistFragment
-import com.phaqlow.stag.ui.songs.SongDetailActivity
-import com.phaqlow.stag.ui.songs.SongsListFragment
-import com.phaqlow.stag.ui.tags.TagDetailActivity
-import com.phaqlow.stag.ui.tags.TagsListFragment
+import com.phaqlow.stag.app.App
 import dagger.Component
+import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 
 @Singleton
-@Component(modules = [AppModule::class])
-interface AppComponent {
-    fun inject(target: MainActivity)
-
-    fun inject(target: PlaylistFragment)
-    fun inject(target: TagsListFragment)
-    fun inject(target: SongsListFragment)
-
-    fun inject(target: TagDetailActivity)
-    fun inject(target: SongDetailActivity)
+@Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, ActivityBuilder::class])
+interface AppComponent : AndroidInjector<App> {
+    @Component.Builder
+    abstract class Builder : AndroidInjector.Builder<App>()
 }

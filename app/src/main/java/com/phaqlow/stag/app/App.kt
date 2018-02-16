@@ -1,16 +1,12 @@
 package com.phaqlow.stag.app
 
-import android.app.Application
-import com.phaqlow.stag.app.dagger.AppComponent
-import com.phaqlow.stag.app.dagger.AppModule
 import com.phaqlow.stag.app.dagger.DaggerAppComponent
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 
 
-class App : Application() {
-    lateinit var appComponent: AppComponent
+class App : DaggerApplication() {
 
-    override fun onCreate() {
-        super.onCreate()
-        appComponent = DaggerAppComponent.builder().appModule(AppModule(this)).build()
-    }
+    override fun applicationInjector(): AndroidInjector<App> =
+            DaggerAppComponent.builder().create(this)
 }

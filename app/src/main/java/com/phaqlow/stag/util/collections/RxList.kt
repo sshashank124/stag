@@ -1,12 +1,12 @@
 package com.phaqlow.stag.util.collections
 
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.phaqlow.stag.util.onUi
 import io.reactivex.subjects.PublishSubject
 
 
 abstract class RxList<T> {
     protected val subject: PublishSubject<Pair<Int, Int>> = PublishSubject.create()
-    val changes = subject.observeOn(AndroidSchedulers.mainThread()).publish().refCount()
+    val changes = subject.onUi().publish().refCount()
 
     companion object {
         const val OP_ADD = 0
