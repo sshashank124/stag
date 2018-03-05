@@ -7,53 +7,66 @@
     android:layout_height="match_parent"
     android:background="@color/black"
     android:focusableInTouchMode="true"
-    tools:context=".ui.home.BaseDetailActivity">
+    tools:context=".ui.home.DetailActivity">
 
     <LinearLayout
         android:id="@+id/item_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:background="@color/gray_dark"
         android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/item_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/spacing_comfort"
-            android:textColor="@color/white"
-            android:background="@color/gray_dark"
-            android:gravity="center_horizontal"
-            android:textSize="20sp"/>
 
         <ImageButton
             android:id="@+id/item_delete_btn"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/spacing_comfort"
             app:srcCompat="@drawable/ic_delete"
-            android:tint="@color/white"
-            android:background="@color/colorAccent"
+            android:tint="@color/colorAccent"
+            android:background="@android:color/transparent"
             android:visibility="gone"
-            android:contentDescription="@string/delete" />
+            android:contentDescription="@string/delete"/>
+
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="@style/pageHeaderText"/>
+
+        <ImageButton
+            android:id="@+id/item_edit_save_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_comfort"
+            app:srcCompat="@drawable/ic_edit"
+            android:tint="@color/white"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/edit_save"/>
     </LinearLayout>
 
     <!-- add content section here -->
+    <LinearLayout
+        android:id="@+id/item_additional_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray"
+        android:layout_below="@id/item_header"
+        android:orientation="vertical"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/sub_items_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/item_header"
+        android:layout_below="@id/item_additional_info"
         android:padding="@dimen/spacing_compact"/>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/edit_save_fab"
+        android:id="@+id/play_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        app:srcCompat="@drawable/ic_edit"
-        android:tint="@color/white"
-        android:layout_margin="@dimen/spacing_comfort"/>
+        app:srcCompat="@drawable/ic_play"
+        style="@style/fab"/>
 </RelativeLayout>

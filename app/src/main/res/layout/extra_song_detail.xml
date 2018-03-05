@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="UseCompoundDrawables">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_regular"
+            android:layout_marginTop="@dimen/spacing_regular"
+            android:layout_marginBottom="@dimen/spacing_regular"
+            app:srcCompat="@drawable/ic_artist"
+            android:tint="@color/white_highlight"
+            android:contentDescription="@string/song_artist_icon"/>
+        
+        <TextView
+            android:id="@+id/song_artist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/spacing_regular"/>
+
+        <TextView
+            android:id="@+id/song_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:padding="@dimen/spacing_regular"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_regular"
+            android:layout_marginTop="@dimen/spacing_regular"
+            android:layout_marginBottom="@dimen/spacing_regular"
+            app:srcCompat="@drawable/ic_duration"
+            android:tint="@color/white_highlight"
+            android:contentDescription="@string/song_duration_icon"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_regular"
+            android:layout_marginTop="@dimen/spacing_regular"
+            android:layout_marginBottom="@dimen/spacing_regular"
+            app:srcCompat="@drawable/ic_album"
+            android:tint="@color/white_highlight"
+            android:contentDescription="@string/song_album_icon"/>
+
+        <TextView
+            android:id="@+id/song_album"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_regular"/>
+    </LinearLayout>
+</merge>

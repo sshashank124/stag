@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/border_width"
@@ -11,15 +10,15 @@
     android:gravity="center_vertical">
 
     <ImageView
+        android:id="@+id/item_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/spacing_regular"
-        app:srcCompat="@drawable/ic_tag"
         android:tint="@color/gray_light"
-        android:contentDescription="@string/tag_icon"/>
+        android:contentDescription="@string/item_icon"/>
 
     <TextView
-        android:id="@+id/tag_name"
+        android:id="@+id/item_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -29,10 +28,11 @@
         android:textAppearance="@android:style/TextAppearance.WindowTitle"/>
 
     <TextView
-        android:id="@+id/tag_num_songs"
+        android:id="@+id/item_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_regular"
         android:textColor="@color/white_highlight"
+        android:singleLine="true"
         android:textStyle="italic"/>
 </LinearLayout>

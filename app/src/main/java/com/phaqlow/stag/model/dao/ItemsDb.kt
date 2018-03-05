@@ -1,12 +1,17 @@
-package com.phaqlow.stag.persistence.dao
+package com.phaqlow.stag.model.dao
 
+import com.phaqlow.stag.util.contracts.Item
 import io.reactivex.Completable
 import io.reactivex.Single
 
 
-interface ItemsDb<T> {
+interface ItemsDb<T: Item> {
 
     fun insertItem(item: T): Single<Long>
+
+    fun insertItems(vararg items: T): Single<List<Long>>
+
+    fun insertItems(items: List<T>): Single<List<Long>>
 
     fun updateItem(item: T): Completable
 

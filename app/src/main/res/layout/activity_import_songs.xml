@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.phaqlow.stag.ui.ImportSongsActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/importing_songs"
+        style="@style/pageHeaderText"/>
+
+    <ProgressBar
+        android:id="@+id/fetch_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/largeProgressBar"
+        android:progress="0"/>
+
+    <TextView
+        android:id="@+id/fetch_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/tabLayout.textAppearance"
+        android:text="@string/fetching_playlists"
+        android:gravity="center"/>
+</LinearLayout>

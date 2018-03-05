@@ -11,18 +11,26 @@
 
     <!-- ITEM strings -->
     <string name="search"><i>\u0020Search</i></string>
+    <string name="add">Add</string>
+    <string name="edit_save">Edit / Save</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
+    <string name="item_icon">Item Icon</string>
     <string name="item_delete_confirmation">Are you sure you want to delete this item?</string>
 
     <!-- TAG strings -->
-    <string name="tag_icon">Tag Icon</string>
     <string name="tag_add">Add Tag</string>
-    <string name="tag_delete">Delete Tag</string>
+    <string name="tag_description">Tag Description</string>
     <string name="tag_template_num_songs">%1$d songs</string>
     <string name="tag_template_num_songs_one">%1$d song</string>
+    <string name="tag_chooser_title">Add songs to tags</string>
 
     <!-- SONG strings -->
-    <string name="song_icon">Song Icon</string>
-    <string name="song_delete">Delete Song</string>
+    <string name="song_artist_icon">Song Artist Icon</string>
+    <string name="song_album_icon">Song Album Icon</string>
+    <string name="song_duration_icon">Song Duration Icon</string>
+
+    <!-- IMPORT strings -->
+    <string name="importing_songs">Importing Songs…</string>
+    <string name="fetching_playlists">Fetching Playlists…</string>
 </resources>

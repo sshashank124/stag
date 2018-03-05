@@ -1,13 +1,13 @@
-package com.phaqlow.stag.persistence.database
+package com.phaqlow.stag.model.database
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
-import com.phaqlow.stag.persistence.dao.TagDao
-import com.phaqlow.stag.persistence.dao.SongDao
-import com.phaqlow.stag.persistence.dao.TagSongJoinDao
-import com.phaqlow.stag.persistence.entity.Tag
-import com.phaqlow.stag.persistence.entity.Song
-import com.phaqlow.stag.persistence.entity.TagSongJoin
+import com.phaqlow.stag.model.dao.TagDao
+import com.phaqlow.stag.model.dao.SongDao
+import com.phaqlow.stag.model.dao.TagSongJoinDao
+import com.phaqlow.stag.model.entity.Tag
+import com.phaqlow.stag.model.entity.Song
+import com.phaqlow.stag.model.entity.TagSongJoin
 import dagger.Module
 
 

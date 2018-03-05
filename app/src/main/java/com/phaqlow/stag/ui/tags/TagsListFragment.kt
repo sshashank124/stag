@@ -1,28 +1,28 @@
 package com.phaqlow.stag.ui.tags
 
 import android.content.Context
-import android.content.Intent
+import android.support.design.widget.FloatingActionButton
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import com.jakewharton.rxbinding2.view.clicks
 import com.phaqlow.stag.R
-import com.phaqlow.stag.persistence.dao.TagSongJoins
-import com.phaqlow.stag.persistence.dao.Tags
-import com.phaqlow.stag.persistence.entity.Tag
-import com.phaqlow.stag.ui.home.BaseDetailActivity
-import com.phaqlow.stag.ui.home.BaseListFragment
+import com.phaqlow.stag.model.dao.TagSongJoins
+import com.phaqlow.stag.model.dao.Tags
+import com.phaqlow.stag.model.entity.Tag
+import com.phaqlow.stag.ui.home.ListFragment
 import com.phaqlow.stag.util.setVisible
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.withLatestFrom
 import kotlinx.android.synthetic.main.fragment_list.*
-import kotlinx.android.synthetic.main.tags_list_additional.*
+import kotlinx.android.synthetic.main.extra_tags_list.*
 import javax.inject.Inject
 
 
-class TagsListFragment : BaseListFragment<Tag>() {
+// TODO: show song count for each tag
+class TagsListFragment : ListFragment<Tag>() {
     @Inject lateinit var tagsDb: Tags
-    @Inject lateinit var tagSongJoinsDb: TagSongJoins
+    @Inject lateinit var joins: TagSongJoins
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -30,53 +30,34 @@ class TagsListFragment : BaseListFragment<Tag>() {
         itemsDb = tagsDb
     }
 
-    override fun inflateAdditionalViews(rootView: View) {
+    override fun inflateAdditionalViews(rootView: View): View {
         val searchBar = rootView.findViewById<LinearLayout>(R.id.search_bar)
-        layoutInflater.inflate(R.layout.tags_list_additional, searchBar)
+        layoutInflater.inflate(R.layout.extra_tags_list, searchBar)
+        rootView.findViewById<FloatingActionButton>(R.id.context_fab).setImageResource(R.drawable.ic_play)
+        return rootView
+    }
+
+    override fun fabActionOnItems(selectedItems: List<Tag>) {
+        // TODO: implement sending play request to MainActivity or Music Playing Service
+        joins.getSongsForTags(selectedItems).register { Log.d("Stag", it.toString()) }
+        itemsRecyclerAdapter.clearSelections()
     }
 
     override fun setRxBindings() {
         super.setRxBindings()
-
-        // items addBtn visibility
-        Observable.merge(searchBoxChanges, itemsList.changes).register { setAddBtnVisibility() }
-
-        // add tag
-        add_tag_btn.clicks()
-                .withLatestFrom(searchBoxChanges)
-                .register { (_, tagName) -> addTag(tagName) }
-    }
-
-    override fun filterItemsOnSearchText(searchText: String) {
-        val searchTextLowerCase = searchText.toLowerCase()
-        itemsList.filter { tag -> tag.name.toLowerCase().contains(searchTextLowerCase) }
-    }
-
-    override fun launchItemDetailsActivity(item: Tag) {
-        startActivity(Intent(context, TagDetailActivity::class.java)
-                .putExtra(BaseDetailActivity.ITEM_ID_EXTRA, item.id))
-    }
-
-    override fun onFabClicked() {
-        // TODO: implement sending play request to MainActivity
-        tagSongJoinsDb.getSongsForTags(itemsRecyclerAdapter.selections)
-                .register { songs -> Log.d("Stag", songs.toString()) }
-        itemsRecyclerAdapter.clearSelections()
+        Observable.merge(searchBoxChanges, itemsList.updates).register { setAddBtnVisibility() }
+        add_tag_btn.clicks().withLatestFrom(searchBoxChanges).register { (_, tagName) -> addTag(tagName) }
     }
 
     private fun addTag(tagName: String) {
-        val tag = Tag(tagName)
-        itemsDb.insertItem(tag)
-                .register { tagId ->
-                    tag.id = tagId
-                    itemsList.add(tag)
-                }
+        itemsDb.insertItem(Tag(tagName)).register { itemsList.add(Tag(it, tagName, tagName)) }
     }
 
     private fun setAddBtnVisibility() {
         val searchText = search_input.text.trim().toString()
-        val isUniqueNonEmptyName = searchText.isNotEmpty()
-                && itemsList.fullData.none { tag -> tag.name == searchText }
+        val isUniqueNonEmptyName = searchText.isNotEmpty() && itemsList.fullData.none { it.name == searchText }
         add_tag_btn.setVisible(isUniqueNonEmptyName)
     }
+
+    override val detailActivityClass = TagDetailActivity::class
 }

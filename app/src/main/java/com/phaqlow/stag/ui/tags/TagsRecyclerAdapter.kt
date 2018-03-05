@@ -1,31 +1,29 @@
 package com.phaqlow.stag.ui.tags
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.ImageView
 import com.phaqlow.stag.R
-import com.phaqlow.stag.persistence.entity.Tag
-import com.phaqlow.stag.util.ui.InteractiveRecyclerAdapter
+import com.phaqlow.stag.model.entity.Tag
 import com.phaqlow.stag.util.collections.RxList
+import com.phaqlow.stag.util.ui.SelectableRecyclerAdapter
+import com.phaqlow.stag.util.ui.ResponsiveRecyclerAdapter
 import kotlinx.android.synthetic.main.rv_item_tag.view.*
 
 
-class TagsRecyclerAdapter(itemsList: RxList<Tag>) : InteractiveRecyclerAdapter<Tag>(itemsList) {
+class TagsRecyclerAdapter(itemsList: RxList<Tag>) : SelectableRecyclerAdapter<Tag>(itemsList) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagViewHolder
-            = TagViewHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.rv_item_tag, parent, false))
+    override val itemViewResId = R.layout.rv_item_tag
 
-    inner class TagViewHolder(v: View) : InteractiveViewHolder(v) {
-        override fun bindItem(data: Tag) {
-            super.bindItem(data)
+    override fun createViewHolder(itemView: View) = ViewHolder(itemView)
 
-            item?.let { tag ->
-                view.tag_name.text = tag.name
-//                view.tag_num_songs.text = view.context.getString(
-//                        if (tag.numSongs == 1) R.string.tag_template_num_songs_one else R.string.tag_template_num_songs,
-//                        tag.numSongs)
-            }
+    override fun modifyItemView(itemView: View) {
+        itemView.findViewById<ImageView>(R.id.item_icon).setImageResource(R.drawable.ic_tag)
+    }
+
+    inner class ViewHolder(v: View) : ResponsiveRecyclerAdapter<Tag>.ViewHolder(v) {
+        override fun bindView(item: Tag) {
+            view.item_name.text = item.name
+            view.item_info.text = item.id.toString()
         }
     }
 }

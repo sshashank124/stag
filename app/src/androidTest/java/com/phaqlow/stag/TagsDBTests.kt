@@ -3,12 +3,13 @@ package com.phaqlow.stag
 import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import com.phaqlow.stag.persistence.dao.Songs
-import com.phaqlow.stag.persistence.dao.TagSongJoins
-import com.phaqlow.stag.persistence.dao.Tags
-import com.phaqlow.stag.persistence.database.AppDatabase
-import com.phaqlow.stag.persistence.entity.Song
-import com.phaqlow.stag.persistence.entity.Tag
+import com.phaqlow.stag.model.dao.Songs
+import com.phaqlow.stag.model.dao.TagSongJoins
+import com.phaqlow.stag.model.dao.Tags
+import com.phaqlow.stag.model.database.AppDatabase
+import com.phaqlow.stag.model.entity.Song
+import com.phaqlow.stag.model.entity.Tag
+import com.phaqlow.stag.model.entity.TagSongJoin
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
@@ -23,7 +24,7 @@ class TagsDBTests {
     private lateinit var db: AppDatabase
     private lateinit var tags: Tags
     private lateinit var songs: Songs
-    private lateinit var tagSongJoins: TagSongJoins
+    private lateinit var joins: TagSongJoins
 
     @Before
     fun setup() {
@@ -31,7 +32,7 @@ class TagsDBTests {
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
         tags = Tags(db.tagDao())
         songs = Songs(db.songDao())
-        tagSongJoins = TagSongJoins(db.tagSongJoinDao())
+        joins = TagSongJoins(db.tagSongJoinDao())
     }
 
     @Test
@@ -42,11 +43,11 @@ class TagsDBTests {
         val songId2 = songs.insertItem(Song("S2")).blockingGet()
         val songId3 = songs.insertItem(Song("S3")).blockingGet()
 
-        tagSongJoins.insertTagSongJoin(tagId1, songId1).blockingAwait()
-        tagSongJoins.insertTagSongJoin(tagId2, songId2).blockingAwait()
-        tagSongJoins.insertTagSongJoin(tagId1, songId3).blockingAwait()
+        joins.insertTagSongJoin(TagSongJoin(tagId1, songId1)).blockingAwait()
+        joins.insertTagSongJoin(TagSongJoin(tagId2, songId2)).blockingAwait()
+        joins.insertTagSongJoin(TagSongJoin(tagId1, songId3)).blockingAwait()
 
-        assertThat(tagSongJoins.getSongsForTag(Tag(tagId1)).blockingGet(),
+        assertThat(joins.getSongsForTag(Tag(tagId1)).blockingGet(),
                 equalTo(listOf(Song(songId1), Song(songId3))))
     }
 

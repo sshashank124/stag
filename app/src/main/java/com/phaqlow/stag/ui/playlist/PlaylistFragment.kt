@@ -9,10 +9,6 @@ import com.phaqlow.stag.util.ui.LifecycleFragment
 
 
 class PlaylistFragment : LifecycleFragment() {
-    companion object {
-        const val TAG = "Playlist Fragment"
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View
             = inflater.inflate(R.layout.fragment_playlist, container, false)

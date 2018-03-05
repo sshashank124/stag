@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.phaqlow.stag">
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".app.App"
@@ -15,28 +16,34 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.phaqlow.stag.ui.tags.TagDetailActivity"
+            android:name=".ui.tags.TagDetailActivity"
             android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppThemeTranslucent"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeTranslucent">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.phaqlow.stag.ui.MainActivity" />
         </activity>
         <activity
-            android:name="com.phaqlow.stag.ui.songs.SongDetailActivity"
+            android:name=".ui.songs.SongDetailActivity"
             android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppThemeTranslucent"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeTranslucent">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.phaqlow.stag.ui.MainActivity" />
         </activity>
+        <activity
+            android:name=".ui.ImportSongsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name="com.spotify.sdk.android.authentication.LoginActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
     </application>
-
 </manifest>

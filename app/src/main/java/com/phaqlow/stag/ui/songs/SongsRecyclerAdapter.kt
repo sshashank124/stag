@@ -1,29 +1,29 @@
 package com.phaqlow.stag.ui.songs
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.ImageView
 import com.phaqlow.stag.R
-import com.phaqlow.stag.persistence.entity.Song
-import com.phaqlow.stag.util.ui.InteractiveRecyclerAdapter
+import com.phaqlow.stag.model.entity.Song
 import com.phaqlow.stag.util.collections.RxList
+import com.phaqlow.stag.util.ui.SelectableRecyclerAdapter
+import com.phaqlow.stag.util.ui.ResponsiveRecyclerAdapter
 import kotlinx.android.synthetic.main.rv_item_song.view.*
 
 
-class SongsRecyclerAdapter(itemsList: RxList<Song>) : InteractiveRecyclerAdapter<Song>(itemsList) {
+class SongsRecyclerAdapter(itemsList: RxList<Song>) : SelectableRecyclerAdapter<Song>(itemsList) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder
-            = SongViewHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.rv_item_song, parent, false))
+    override val itemViewResId = R.layout.rv_item_song
 
-    inner class SongViewHolder(v: View) : InteractiveViewHolder(v) {
-        override fun bindItem(data: Song) {
-            super.bindItem(data)
+    override fun createViewHolder(itemView: View) = ViewHolder(itemView)
 
-            item?.let { song ->
-                view.song_name.text = song.name
-                view.song_artist.text = "No Artist"
-            }
+    override fun modifyItemView(itemView: View) {
+        itemView.findViewById<ImageView>(R.id.item_icon).setImageResource(R.drawable.ic_song)
+    }
+
+    inner class ViewHolder(v: View) : ResponsiveRecyclerAdapter<Song>.ViewHolder(v) {
+        override fun bindView(item: Song) {
+            view.item_name.text = item.name
+            view.item_info.text = item.artists?.first() ?: "No Artist"
         }
     }
 }

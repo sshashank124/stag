@@ -1,5 +1,6 @@
 package com.phaqlow.stag.app.dagger
 
+import com.phaqlow.stag.ui.ImportSongsActivity
 import com.phaqlow.stag.ui.MainActivity
 import com.phaqlow.stag.ui.home.HomeFragment
 import com.phaqlow.stag.ui.playlist.PlaylistFragment
@@ -34,4 +35,7 @@ abstract class ActivityBuilder {
 
     @ContributesAndroidInjector
     abstract fun bindSongDetailActivity(): SongDetailActivity
+
+    @ContributesAndroidInjector
+    abstract fun bindImportSongsActivity(): ImportSongsActivity
 }

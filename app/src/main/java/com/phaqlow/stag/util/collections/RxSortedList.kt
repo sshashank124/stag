@@ -2,7 +2,8 @@ package com.phaqlow.stag.util.collections
 
 
 open class RxSortedList<T : Comparable<T>> : RxList<T>() {
-    protected val list = mutableListOf<T>()
+    protected val list = arrayListOf<T>()
+    override val size = list.size
 
     override fun addImpl(value: T): Int? {
         // convert to actual index since binary search returns inverted index
@@ -24,7 +25,5 @@ open class RxSortedList<T : Comparable<T>> : RxList<T>() {
         list.sort()
     }
 
-    override fun get(pos: Int): T = list[pos]
-
-    override val size: Int get() = list.size
+    override fun get(pos: Int) = list[pos]
 }
