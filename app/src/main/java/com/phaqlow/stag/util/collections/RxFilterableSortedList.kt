@@ -4,9 +4,7 @@ import com.phaqlow.stag.util.C
 
 
 class RxFilterableSortedList<T : Comparable<T>> : RxSortedList<T>() {
-    private val referenceList = arrayListOf<T>()
-    val fullData: List<T> get() = referenceList
-    
+    val referenceList = arrayListOf<T>()
     private var filterConstraint: (T) -> Boolean = { true }
 
     override fun addImpl(value: T): Int? {

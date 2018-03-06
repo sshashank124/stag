@@ -3,5 +3,4 @@
     <dimen name="spacing_regular">12dp</dimen>
     <dimen name="spacing_compact">8dp</dimen>
     <dimen name="border_width">2dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
 </resources>

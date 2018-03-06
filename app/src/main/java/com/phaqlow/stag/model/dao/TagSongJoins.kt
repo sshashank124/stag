@@ -3,7 +3,7 @@ package com.phaqlow.stag.model.dao
 import com.phaqlow.stag.model.entity.Song
 import com.phaqlow.stag.model.entity.Tag
 import com.phaqlow.stag.model.entity.TagSongJoin
-import com.phaqlow.stag.util.contracts.ioToUi
+import com.phaqlow.stag.util.ioToUi
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -29,9 +29,6 @@ class TagSongJoins(private val tagSongJoinDao: TagSongJoinDao) {
 
     fun getSongsForTags(tags: List<Tag>): Single<List<Song>> =
             tagSongJoinDao.getSongsForTags(tags.map { it.id }).ioToUi()
-
-    fun getAllJoins(): Single<List<TagSongJoin>> =
-            tagSongJoinDao.getAllJoins().ioToUi()
 
     fun getAllTagsExceptWithSongs(songs: List<Song>): Single<List<Tag>> =
             tagSongJoinDao.getAllTagsExceptWithSongs(songs.map { it.id }, songs.size).ioToUi()

@@ -3,15 +3,12 @@ package com.phaqlow.stag.util.contracts
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.Subject
 
 
 interface Lifecyclable {
-    val lifecycleDisposables: CompositeDisposable
+    var lifecycleDisposables: CompositeDisposable
 
     fun disposeActive() {
         lifecycleDisposables.clear()
@@ -31,10 +28,3 @@ interface Lifecyclable {
     fun Completable.register(onComplete: () -> Unit, onError: (Throwable) -> Unit) =
             this.subscribe(onComplete, onError).addTo(lifecycleDisposables)
 }
-
-// changing schedulers
-fun <T> Subject<T>.onUi(): Observable<T> = observeOn(AndroidSchedulers.mainThread())
-
-fun <T> Observable<T>.toUi(): Observable<T> = subscribeOn(AndroidSchedulers.mainThread())
-fun <T> Single<T>.ioToUi(): Single<T> = subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-fun Completable.ioToUi(): Completable = subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())

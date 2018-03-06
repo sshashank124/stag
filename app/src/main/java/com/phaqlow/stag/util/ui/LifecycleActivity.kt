@@ -6,7 +6,7 @@ import io.reactivex.disposables.CompositeDisposable
 
 
 abstract class LifecycleActivity : DaggerAppCompatActivity(), Lifecyclable {
-    override val lifecycleDisposables = CompositeDisposable()
+    override var lifecycleDisposables = CompositeDisposable()
 
     override fun onDestroy() {
         super.onDestroy()

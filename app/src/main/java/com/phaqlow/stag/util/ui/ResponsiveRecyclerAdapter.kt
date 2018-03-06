@@ -8,7 +8,7 @@ import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.view.longClicks
 import com.phaqlow.stag.util.collections.RxList
 import com.phaqlow.stag.util.contracts.Lifecyclable
-import com.phaqlow.stag.util.contracts.toUi
+import com.phaqlow.stag.util.toUi
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 
@@ -23,7 +23,7 @@ abstract class ResponsiveRecyclerAdapter<T>(private val itemsList: RxList<T>)
     private val longClicksSubject: PublishSubject<T> = PublishSubject.create<T>()
     val itemLongClicks = longClicksSubject.toUi().publish().refCount()
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
 
         itemsList.insertions.register { notifyItemInserted(it) }
@@ -54,8 +54,8 @@ abstract class ResponsiveRecyclerAdapter<T>(private val itemsList: RxList<T>)
     protected open fun itemLongClick(position: Int, item: T) = longClicksSubject.onNext(item)
 
     abstract inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v), Lifecyclable {
-        internal val view = v
-        internal var data: T? = null
+        val view = v
+        var data: T? = null
         override var lifecycleDisposables = CompositeDisposable()
 
         fun bindData(data: T) {
@@ -66,7 +66,6 @@ abstract class ResponsiveRecyclerAdapter<T>(private val itemsList: RxList<T>)
             view.longClicks().register { itemLongClick(adapterPosition, data) }
             bindView(data)
         }
-
         abstract fun bindView(item: T)
     }
 

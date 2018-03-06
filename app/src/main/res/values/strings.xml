@@ -5,6 +5,7 @@
     <string name="tab_songs">SONGS</string>
 
     <!-- PLAYLIST strings -->
+    <string name="playlist_title">Current Playlist</string>
     <string name="play_pause">Play/Pause</string>
     <string name="prev">Previous</string>
     <string name="next">Next</string>
@@ -21,8 +22,10 @@
     <!-- TAG strings -->
     <string name="tag_add">Add Tag</string>
     <string name="tag_description">Tag Description</string>
-    <string name="tag_template_num_songs">%1$d songs</string>
-    <string name="tag_template_num_songs_one">%1$d song</string>
+    <plurals name="tag_template_num_songs">
+        <item quantity="one">%1$d song</item>
+        <item quantity="other">%1$d songs</item>
+    </plurals>
     <string name="tag_chooser_title">Add songs to tags</string>
 
     <!-- SONG strings -->

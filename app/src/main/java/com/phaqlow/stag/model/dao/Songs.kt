@@ -1,7 +1,7 @@
 package com.phaqlow.stag.model.dao
 
 import com.phaqlow.stag.model.entity.Song
-import com.phaqlow.stag.util.contracts.ioToUi
+import com.phaqlow.stag.util.ioToUi
 import io.reactivex.Completable
 import io.reactivex.Single
 

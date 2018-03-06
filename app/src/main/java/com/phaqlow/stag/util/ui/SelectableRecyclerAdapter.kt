@@ -3,7 +3,7 @@ package com.phaqlow.stag.util.ui
 import android.support.v7.widget.RecyclerView
 import com.phaqlow.stag.util.collections.RxList
 import com.phaqlow.stag.util.collections.RxSet
-import com.phaqlow.stag.util.contracts.toUi
+import com.phaqlow.stag.util.toUi
 import io.reactivex.subjects.PublishSubject
 
 
@@ -16,15 +16,14 @@ abstract class SelectableRecyclerAdapter<T>(itemsList: RxList<T>)
     private val modeChangeSubject = PublishSubject.create<Boolean>()
     val selectingToggles = modeChangeSubject.toUi().publish().refCount()
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
 
-        multiSelector.changes.map { it == 0 }
-                .register { isEmpty ->
-                    if (isEmpty && multiSelectMode) modeChangeSubject.onNext(false)
-                    else if (!isEmpty && !multiSelectMode) modeChangeSubject.onNext(true)
-                    multiSelectMode = !isEmpty
-                }
+        multiSelector.updates.map { it == 0 }.register { isEmpty ->
+            if (isEmpty && multiSelectMode) modeChangeSubject.onNext(false)
+            else if (!isEmpty && !multiSelectMode) modeChangeSubject.onNext(true)
+            multiSelectMode = !isEmpty
+        }
     }
 
     override fun itemClick(position: Int, item: T) {

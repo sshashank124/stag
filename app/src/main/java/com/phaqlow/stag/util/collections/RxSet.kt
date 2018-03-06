@@ -1,6 +1,6 @@
 package com.phaqlow.stag.util.collections
 
-import com.phaqlow.stag.util.contracts.toUi
+import com.phaqlow.stag.util.toUi
 import io.reactivex.subjects.PublishSubject
 
 
@@ -8,7 +8,7 @@ class RxSet<T> {
     val selections = mutableSetOf<T>()
 
     private val subject = PublishSubject.create<Int>()
-    val changes = subject.toUi().publish().refCount()
+    val updates = subject.toUi().publish().refCount()
 
     fun toggle(value: T) {
         if (!selections.add(value)) selections.remove(value)

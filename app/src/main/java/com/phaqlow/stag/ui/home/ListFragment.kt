@@ -11,12 +11,12 @@ import com.jakewharton.rxbinding2.widget.textChanges
 import com.phaqlow.stag.R
 import com.phaqlow.stag.model.dao.ItemsDb
 import com.phaqlow.stag.util.C
-import com.phaqlow.stag.util.contracts.Item
-import com.phaqlow.stag.util.ui.SelectableRecyclerAdapter
 import com.phaqlow.stag.util.collections.RxFilterableSortedList
-import com.phaqlow.stag.util.contracts.toUi
+import com.phaqlow.stag.util.contracts.Item
 import com.phaqlow.stag.util.setVisible
+import com.phaqlow.stag.util.toUi
 import com.phaqlow.stag.util.ui.LifecycleFragment
+import com.phaqlow.stag.util.ui.SelectableRecyclerAdapter
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_list.*
 import java.util.concurrent.TimeUnit

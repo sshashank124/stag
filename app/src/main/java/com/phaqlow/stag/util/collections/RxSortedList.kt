@@ -3,12 +3,13 @@ package com.phaqlow.stag.util.collections
 
 open class RxSortedList<T : Comparable<T>> : RxList<T>() {
     protected val list = arrayListOf<T>()
-    override val size = list.size
+    override val size get() = list.size
 
     override fun addImpl(value: T): Int? {
         // convert to actual index since binary search returns inverted index
         val insertPos = -list.binarySearch(value) - 1
         list.add(insertPos, value)
+        mutableListOf(1, 2, 5, 6).size
         return insertPos
     }
 

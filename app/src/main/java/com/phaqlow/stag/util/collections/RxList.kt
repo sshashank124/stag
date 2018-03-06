@@ -1,7 +1,7 @@
 package com.phaqlow.stag.util.collections
 
 import com.phaqlow.stag.util.C
-import com.phaqlow.stag.util.contracts.onUi
+import com.phaqlow.stag.util.onUi
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
@@ -9,9 +9,9 @@ import io.reactivex.subjects.PublishSubject
 abstract class RxList<T> {
     protected val subject: PublishSubject<Pair<Int, Int>> = PublishSubject.create()
     val updates = subject.onUi().publish().refCount()
-    val insertions: Observable<Int> = updates.filter { (op, _) -> op == C.RX_OP_ADD }.map { it.second }
-    val removals: Observable<Int> = updates.filter { (op, _) -> op == C.RX_OP_REMOVE }.map { it.second }
-    val changes: Observable<*> = updates.filter { (op, _) -> op == C.RX_OP_SETALL }
+    val insertions: Observable<Int> = updates.filter { it.first == C.RX_OP_ADD }.map { it.second }
+    val removals: Observable<Int> = updates.filter { it.first == C.RX_OP_REMOVE }.map { it.second }
+    val changes: Observable<Pair<Int, Int>> = updates.filter { it.first == C.RX_OP_SETALL }
 
     fun add(value: T) {
         val addPos = addImpl(value)

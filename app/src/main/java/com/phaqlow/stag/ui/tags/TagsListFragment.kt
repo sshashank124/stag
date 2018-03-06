@@ -46,7 +46,7 @@ class TagsListFragment : ListFragment<Tag>() {
     override fun setRxBindings() {
         super.setRxBindings()
         Observable.merge(searchBoxChanges, itemsList.updates).register { setAddBtnVisibility() }
-        add_tag_btn.clicks().withLatestFrom(searchBoxChanges).register { (_, tagName) -> addTag(tagName) }
+        add_tag_btn.clicks().withLatestFrom(searchBoxChanges).register { addTag(it.second) }
     }
 
     private fun addTag(tagName: String) {
@@ -55,7 +55,7 @@ class TagsListFragment : ListFragment<Tag>() {
 
     private fun setAddBtnVisibility() {
         val searchText = search_input.text.trim().toString()
-        val isUniqueNonEmptyName = searchText.isNotEmpty() && itemsList.fullData.none { it.name == searchText }
+        val isUniqueNonEmptyName = searchText.isNotEmpty() && itemsList.referenceList.none { it.name == searchText }
         add_tag_btn.setVisible(isUniqueNonEmptyName)
     }
 
