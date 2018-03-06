@@ -6,6 +6,6 @@
     <color name="gray_light">#757575</color>
     <color name="white_highlight">#aadfdfdf</color>
     <color name="white">#dfdfdf</color>
-    <color name="colorAccent">#00e1ff</color>
-    <color name="colorAccentDark">#00515c</color>
+    <color name="accent">#00e1ff</color>
+    <color name="accent_dark">#00515c</color>
 </resources>

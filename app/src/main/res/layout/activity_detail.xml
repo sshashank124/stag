@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/spacing_comfort"
             app:srcCompat="@drawable/ic_delete"
-            android:tint="@color/colorAccent"
+            android:tint="@color/accent"
             android:background="@android:color/transparent"
             android:visibility="gone"
             android:contentDescription="@string/delete"/>

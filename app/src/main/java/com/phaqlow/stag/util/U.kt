@@ -39,7 +39,7 @@ fun Context.setFlag(flag: String) = prefs().edit().putBoolean(flag, true).apply(
 
 // Toast and Snackbar
 fun Context.longToast(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
-fun View.shortSnackbar(msg: String) = Snackbar.make(this, msg, Snackbar.LENGTH_SHORT).show()
+fun shortSnackbar(msg: String, view: View) = Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show()
 
 // Log
 fun log(msg: String) = Log.d(C.LOG_TAG, msg)

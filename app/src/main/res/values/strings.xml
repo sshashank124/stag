@@ -35,5 +35,5 @@
 
     <!-- IMPORT strings -->
     <string name="importing_songs">Importing Songs…</string>
-    <string name="fetching_playlists">Fetching Playlists…</string>
+    <string name="loading_data">Loading Data</string>
 </resources>

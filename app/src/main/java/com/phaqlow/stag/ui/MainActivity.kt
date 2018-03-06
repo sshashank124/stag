@@ -4,21 +4,17 @@ import android.content.Intent
 import android.os.Bundle
 import com.jakewharton.rxbinding2.view.clicks
 import com.phaqlow.stag.R
-import com.phaqlow.stag.model.dao.TagSongJoins
 import com.phaqlow.stag.ui.home.HomeFragment
 import com.phaqlow.stag.ui.playlist.PlaylistFragment
 import com.phaqlow.stag.util.C
 import com.phaqlow.stag.util.hasFlag
 import com.phaqlow.stag.util.ui.LifecycleActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import javax.inject.Inject
 
 
 class MainActivity : LifecycleActivity() {
     private val homeFragment = HomeFragment()
     private val playlistFragment = PlaylistFragment()
-
-    @Inject lateinit var joins: TagSongJoins
 
     override fun onCreate(savedInstanceState: Bundle?) {
         checkFirstLaunch()

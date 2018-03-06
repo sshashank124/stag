@@ -1,0 +1,13 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:name="vector"
+    android:width="154dp"
+    android:height="151dp"
+    android:viewportWidth="160"
+    android:viewportHeight="160">
+
+    <path
+        android:name="outline"
+        android:pathData="@string/img_stag_path"
+        android:strokeColor="@color/accent_dark"
+        android:strokeWidth="1"/>
+</vector>

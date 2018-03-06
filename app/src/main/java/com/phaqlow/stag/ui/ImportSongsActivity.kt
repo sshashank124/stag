@@ -1,7 +1,11 @@
 package com.phaqlow.stag.ui
 
 import android.content.Intent
+import android.graphics.drawable.Animatable
 import android.os.Bundle
+import android.os.Handler
+import android.support.annotation.DrawableRes
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat
 import com.phaqlow.stag.R
 import com.phaqlow.stag.model.dao.Songs
 import com.phaqlow.stag.model.dao.TagSongJoins
@@ -11,8 +15,8 @@ import com.phaqlow.stag.model.entity.Tag
 import com.phaqlow.stag.model.entity.TagSongJoin
 import com.phaqlow.stag.util.C
 import com.phaqlow.stag.util.ioToUi
-import com.phaqlow.stag.util.setFlag
 import com.phaqlow.stag.util.longToast
+import com.phaqlow.stag.util.setFlag
 import com.phaqlow.stag.util.shortSnackbar
 import com.phaqlow.stag.util.ui.LifecycleActivity
 import com.spotify.sdk.android.authentication.AuthenticationClient
@@ -39,6 +43,8 @@ class ImportSongsActivity : LifecycleActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_import_songs)
 
+        setLoadingAnimation(R.drawable.anim_stag_loading)
+
         // TODO: Need to always access streaming permission
         val request = AuthenticationRequest.Builder(C.SPOTIFY_CLIENT_ID,
                 AuthenticationResponse.Type.TOKEN, C.SPOTIFY_LOGIN_REDIRECT_URI)
@@ -48,7 +54,6 @@ class ImportSongsActivity : LifecycleActivity() {
         AuthenticationClient.openLoginActivity(this, C.SPOTIFY_REQUEST_CODE, request)
     }
 
-    // TODO: de-uglify UI
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -63,13 +68,11 @@ class ImportSongsActivity : LifecycleActivity() {
         fetchPlaylistsFromSpotify(spotifyService).register({ playlists ->
             val pendingPlaylistsCount = AtomicInteger(playlists.size)
             var successful = true
-            fetch_progress.max = playlists.size
             playlists.forEach { (playlist, songs) ->
                 savePlaylistToPersistence(playlist, songs).register({
-                    fetch_progress.incrementProgressBy(1)
                     if (pendingPlaylistsCount.decrementAndGet() == 0) finishedLoadingData(successful)
                 }, { _ ->
-                    import_songs_activity.shortSnackbar("Error saving playlist: $playlist")
+                    shortSnackbar("Error saving playlist: $playlist", import_songs_activity)
                     pendingPlaylistsCount.getAndDecrement()
                     successful = false
                 })
@@ -104,15 +107,28 @@ class ImportSongsActivity : LifecycleActivity() {
     private fun finishedLoadingData(successful: Boolean) {
         if (successful) {
             setFlag(C.PREF_IS_LAUNCHED_BEFORE)
-            notifyAndFinish("Playlists loaded successfully")
+            setLoadingAnimation(R.drawable.anim_stag_complete)
+            Handler().postDelayed({ notifyAndFinish("Playlists loaded successfully") },
+                    resources.getInteger(R.integer.anim_stag_complete_duration).toLong())
         } else {
             notifyAndFinish("Failed loading some playlists. Wizard will rerun on next launch")
         }
     }
 
+    private fun setLoadingAnimation(@DrawableRes animation: Int) {
+        val animationDrawable = AnimatedVectorDrawableCompat.create(this, animation)
+        loading_icon.setImageDrawable(animationDrawable)
+        (animationDrawable as Animatable).start()
+    }
+
     private fun notifyAndFinish(msg: String) {
         longToast(msg)
         finish()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        longToast("User data import interrupted. Wizard will rerun on next launch")
     }
 
     override fun onDestroy() {

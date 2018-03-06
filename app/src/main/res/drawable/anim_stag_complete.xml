@@ -1,0 +1,35 @@
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    tools:ignore="NewApi">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="vector"
+            android:width="154dp"
+            android:height="151dp"
+            android:viewportWidth="160"
+            android:viewportHeight="160">
+            <path
+                android:pathData="@string/img_stag_path"
+                android:strokeColor="@color/accent_dark"
+                android:strokeWidth="0.7"/>
+            <path
+                android:name="outline"
+                android:pathData="@string/img_stag_path"
+                android:fillColor="@color/accent"
+                android:strokeWidth="1.2"/>
+        </vector>
+    </aapt:attr>
+    <target android:name="outline">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="@integer/anim_stag_complete_duration"
+                android:valueFrom="0"
+                android:valueTo="1"
+                android:valueType="floatType"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+</animated-vector>

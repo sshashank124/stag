@@ -2,30 +2,27 @@
 <LinearLayout
     android:id="@+id/import_songs_activity"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.phaqlow.stag.ui.ImportSongsActivity">
+    tools:context="com.phaqlow.stag.ui.ImportSongsActivity"
+    tools:ignore="UseCompoundDrawables">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/importing_songs"
+        android:background="@android:color/transparent"
+        android:textColor="@color/accent"
         style="@style/pageHeaderText"/>
 
-    <ProgressBar
-        android:id="@+id/fetch_progress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/largeProgressBar"
-        android:progress="0"/>
-
-    <TextView
-        android:id="@+id/fetch_info"
+    <ImageView
+        android:id="@+id/loading_icon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        style="@style/tabLayout.textAppearance"
-        android:text="@string/fetching_playlists"
-        android:gravity="center"/>
+        android:padding="@dimen/spacing_comfort"
+        app:srcCompat="@drawable/img_stag"
+        android:contentDescription="@string/loading_data" />
 </LinearLayout>
