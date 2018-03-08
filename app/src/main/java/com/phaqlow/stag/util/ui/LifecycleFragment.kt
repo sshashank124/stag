@@ -6,7 +6,7 @@ import io.reactivex.disposables.CompositeDisposable
 
 
 abstract class LifecycleFragment : DaggerFragment(), Lifecyclable {
-    override var lifecycleDisposables = CompositeDisposable()
+    override val lifecycleDisposables = CompositeDisposable()
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -56,7 +56,9 @@ abstract class ListFragment<T: Item> : LifecycleFragment() {
             search_icon.setVisible(searchText.isEmpty())
         }
 
-        searchBoxChanges.debounce(500, TimeUnit.MILLISECONDS).distinctUntilChanged().toUi()
+        searchBoxChanges
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .distinctUntilChanged().toUi()
                 .register { filterItemsOnSearchText(it.toLowerCase()) }
 
         // clear search box

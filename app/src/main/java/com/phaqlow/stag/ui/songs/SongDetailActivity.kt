@@ -1,6 +1,5 @@
 package com.phaqlow.stag.ui.songs
 
-import android.util.Log
 import com.phaqlow.stag.R
 import com.phaqlow.stag.model.dao.Songs
 import com.phaqlow.stag.model.dao.TagSongJoins
@@ -10,11 +9,9 @@ import com.phaqlow.stag.model.entity.TagSongJoin
 import com.phaqlow.stag.ui.home.DetailActivity
 import com.phaqlow.stag.ui.tags.TagDetailActivity
 import com.phaqlow.stag.ui.tags.TagsCompactRecyclerAdapter
-import com.phaqlow.stag.util.C
 import com.phaqlow.stag.util.orIfBlank
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.extra_song_detail.*
-
 import javax.inject.Inject
 
 
@@ -32,7 +29,6 @@ class SongDetailActivity : DetailActivity<Song, Tag>() {
     }
 
     override fun playItem() {
-        Log.d(C.LOG_TAG, "Playing item: $item")
     }
 
     override fun saveChanges() {}

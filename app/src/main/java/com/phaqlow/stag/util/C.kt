@@ -31,6 +31,7 @@ object C {
     const val PREF_IS_LAUNCHED_BEFORE = "IS_LAUNCHED_BEFORE"
 
     // Intent Extras
+    const val EXTRA_SPOTIFY_ACCESS_TOKEN = "SPOTIFY_ACCESS_TOKEN"
     const val EXTRA_ITEM_ID = "ITEM_ID"
 
     // Logging

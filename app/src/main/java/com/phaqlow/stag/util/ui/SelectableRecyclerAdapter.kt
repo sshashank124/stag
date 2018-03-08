@@ -3,6 +3,7 @@ package com.phaqlow.stag.util.ui
 import android.support.v7.widget.RecyclerView
 import com.phaqlow.stag.util.collections.RxList
 import com.phaqlow.stag.util.collections.RxSet
+import com.phaqlow.stag.util.log
 import com.phaqlow.stag.util.toUi
 import io.reactivex.subjects.PublishSubject
 

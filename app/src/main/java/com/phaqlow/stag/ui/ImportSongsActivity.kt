@@ -1,6 +1,5 @@
 package com.phaqlow.stag.ui
 
-import android.content.Intent
 import android.graphics.drawable.Animatable
 import android.os.Bundle
 import android.os.Handler
@@ -19,9 +18,6 @@ import com.phaqlow.stag.util.longToast
 import com.phaqlow.stag.util.setFlag
 import com.phaqlow.stag.util.shortSnackbar
 import com.phaqlow.stag.util.ui.LifecycleActivity
-import com.spotify.sdk.android.authentication.AuthenticationClient
-import com.spotify.sdk.android.authentication.AuthenticationRequest
-import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.spotify.sdk.android.player.Spotify
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -42,26 +38,10 @@ class ImportSongsActivity : LifecycleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_import_songs)
-
         setLoadingAnimation(R.drawable.anim_stag_loading)
 
-        // TODO: Need to always access streaming permission
-        val request = AuthenticationRequest.Builder(C.SPOTIFY_CLIENT_ID,
-                AuthenticationResponse.Type.TOKEN, C.SPOTIFY_LOGIN_REDIRECT_URI)
-                .setScopes(arrayOf("playlist-read-private", "streaming"))
-                .build()
-
-        AuthenticationClient.openLoginActivity(this, C.SPOTIFY_REQUEST_CODE, request)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when (requestCode) {
-            C.SPOTIFY_REQUEST_CODE -> AuthenticationClient.getResponse(resultCode, data)
-                    .takeIf { it.type == AuthenticationResponse.Type.TOKEN }
-                    ?.let { loadUserDataFromSpotify(SpotifyApi().setAccessToken(it.accessToken).service) }
-        }
+        intent.getStringExtra(C.EXTRA_SPOTIFY_ACCESS_TOKEN)
+                ?.let { loadUserDataFromSpotify(SpotifyApi().setAccessToken(it).service) }
     }
 
     private fun loadUserDataFromSpotify(spotifyService: SpotifyService) {

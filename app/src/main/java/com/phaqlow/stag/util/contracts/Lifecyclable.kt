@@ -8,7 +8,7 @@ import io.reactivex.rxkotlin.addTo
 
 
 interface Lifecyclable {
-    var lifecycleDisposables: CompositeDisposable
+    val lifecycleDisposables: CompositeDisposable
 
     fun disposeActive() {
         lifecycleDisposables.clear()

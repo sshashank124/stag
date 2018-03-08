@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_detail.*
 import kotlin.reflect.KClass
 
 
+// TODO: can make it so that play button is only displayed if valid musicPlayerHandler was passed in
 abstract class DetailActivity<P: Item, S: Item> : LifecycleActivity() {
     private var currentMode = C.DETAIL_MODE_VIEW
 

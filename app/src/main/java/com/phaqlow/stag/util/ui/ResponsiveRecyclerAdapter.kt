@@ -15,7 +15,7 @@ import io.reactivex.subjects.PublishSubject
 
 abstract class ResponsiveRecyclerAdapter<T>(private val itemsList: RxList<T>)
     : RecyclerView.Adapter<ResponsiveRecyclerAdapter<T>.ViewHolder>(), Lifecyclable {
-    override var lifecycleDisposables = CompositeDisposable()
+    override val lifecycleDisposables = CompositeDisposable()
 
     private val clicksSubject: PublishSubject<T> = PublishSubject.create<T>()
     val itemClicks = clicksSubject.toUi().publish().refCount()
