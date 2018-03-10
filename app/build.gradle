@@ -39,6 +39,7 @@ dependencies {
 
     implementation 'com.android.support:design:27.1.0'
     implementation 'com.android.support:recyclerview-v7:27.1.0'
+    implementation 'com.android.support:customtabs:27.1.0'
 
     implementation 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.1.0'
     implementation 'com.jakewharton.rxbinding2:rxbinding-design-kotlin:2.1.0'
@@ -62,7 +63,7 @@ dependencies {
 
     implementation 'com.r0adkll:slidableactivity:2.0.6'
 
-    implementation 'com.spotify.sdk:spotify-auth:1.0.0-beta13@aar'
-    implementation 'com.spotify.sdk:spotify-player:1.0.0-beta13@aar'
+    implementation 'com.spotify.android:auth:1.0.0-alpha'
+    implementation 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
     implementation 'com.github.kaaes:spotify-web-api-android:0.4.1'
 }

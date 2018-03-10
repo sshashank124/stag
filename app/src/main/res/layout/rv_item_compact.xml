@@ -38,7 +38,7 @@
         android:paddingTop="@dimen/spacing_regular"
         android:paddingBottom="@dimen/spacing_regular"
         android:paddingEnd="@dimen/spacing_regular"
-        app:srcCompat="@drawable/ic_delete"
+        app:srcCompat="@drawable/ic_remove"
         android:tint="@color/accent"
         android:background="@android:color/transparent"
         android:visibility="gone"

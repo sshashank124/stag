@@ -6,7 +6,7 @@ import com.phaqlow.stag.app.App
 import com.phaqlow.stag.model.dao.Songs
 import com.phaqlow.stag.model.dao.TagSongJoins
 import com.phaqlow.stag.model.dao.Tags
-import com.phaqlow.stag.model.database.AppDatabase
+import com.phaqlow.stag.model.AppDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

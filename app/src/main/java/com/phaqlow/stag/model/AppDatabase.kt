@@ -1,4 +1,4 @@
-package com.phaqlow.stag.model.database
+package com.phaqlow.stag.model
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase

@@ -1,15 +1,15 @@
-package com.phaqlow.stag.util.ui
+package com.phaqlow.stag.util.recycleradapters
 
 import android.support.v7.widget.RecyclerView
-import com.phaqlow.stag.util.collections.RxList
-import com.phaqlow.stag.util.collections.RxSet
-import com.phaqlow.stag.util.log
+import android.view.View
+import com.phaqlow.stag.util.rxcollections.RxSequence
+import com.phaqlow.stag.util.rxcollections.RxSet
 import com.phaqlow.stag.util.toUi
 import io.reactivex.subjects.PublishSubject
 
 
-abstract class SelectableRecyclerAdapter<T>(itemsList: RxList<T>)
-    : ResponsiveRecyclerAdapter<T>(itemsList) {
+abstract class SelectableRecyclerAdapter<T>(items: RxSequence<T>)
+    : ResponsiveRecyclerAdapter<T>(items) {
     private var multiSelectMode = false
     private val multiSelector = RxSet<T>()
     val selections get() = multiSelector.selections.toList()
@@ -46,8 +46,11 @@ abstract class SelectableRecyclerAdapter<T>(itemsList: RxList<T>)
         notifyDataSetChanged()
     }
 
-    override fun onBindViewHolder(holder: ResponsiveRecyclerAdapter<T>.ViewHolder, position: Int) {
-        super.onBindViewHolder(holder, position)
-        holder.view.isSelected = multiSelector.selections.contains(holder.data)
+    open inner class ViewHolder(v: View) : ResponsiveRecyclerAdapter<T>.ViewHolder(v) {
+        override fun bindData(item: T) {
+            super.bindData(item)
+
+            view.isSelected = multiSelector.selections.contains(item)
+        }
     }
 }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.home.ListFragment">
+    tools:context=".ui.item.ListFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -59,7 +59,7 @@
             android:id="@+id/clear_search_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_clear"
+            app:srcCompat="@drawable/ic_remove"
             style="@style/searchFieldContextButton"
             android:contentDescription="@string/cancel"/>
     </LinearLayout>

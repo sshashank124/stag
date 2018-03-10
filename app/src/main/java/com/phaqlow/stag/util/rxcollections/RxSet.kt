@@ -1,11 +1,11 @@
-package com.phaqlow.stag.util.collections
+package com.phaqlow.stag.util.rxcollections
 
 import com.phaqlow.stag.util.toUi
 import io.reactivex.subjects.PublishSubject
 
 
 class RxSet<T> {
-    val selections = mutableSetOf<T>()
+    val selections = hashSetOf<T>()
 
     private val subject = PublishSubject.create<Int>()
     val updates = subject.toUi().publish().refCount()

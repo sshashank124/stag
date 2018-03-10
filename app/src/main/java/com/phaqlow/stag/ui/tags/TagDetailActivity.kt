@@ -1,19 +1,16 @@
 package com.phaqlow.stag.ui.tags
 
-import android.util.Log
 import com.phaqlow.stag.R
 import com.phaqlow.stag.model.dao.TagSongJoins
 import com.phaqlow.stag.model.dao.Tags
 import com.phaqlow.stag.model.entity.Song
 import com.phaqlow.stag.model.entity.Tag
 import com.phaqlow.stag.model.entity.TagSongJoin
-import com.phaqlow.stag.ui.home.DetailActivity
+import com.phaqlow.stag.ui.item.DetailActivity
 import com.phaqlow.stag.ui.songs.SongDetailActivity
 import com.phaqlow.stag.ui.songs.SongsCompactRecyclerAdapter
-import com.phaqlow.stag.util.C
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.extra_tag_detail.*
-
 import javax.inject.Inject
 
 
@@ -22,7 +19,7 @@ class TagDetailActivity : DetailActivity<Tag, Song>() {
     @Inject lateinit var joins: TagSongJoins
 
     override fun onDepsInjected() {
-        subItemsRecyclerAdapter = SongsCompactRecyclerAdapter(subItemsList, ::onItemRemove)
+        subItemsRecyclerAdapter = SongsCompactRecyclerAdapter(subItems, ::onItemRemove)
         itemsDb = tagsDb
     }
 
@@ -31,7 +28,6 @@ class TagDetailActivity : DetailActivity<Tag, Song>() {
     }
 
     override fun playItem() {
-        Log.d(C.LOG_TAG, "Playing item: $item")
     }
 
     override fun switchToEditMode() {
@@ -57,11 +53,11 @@ class TagDetailActivity : DetailActivity<Tag, Song>() {
     }
 
     override fun loadSubItemsData(itemId: Long) {
-        joins.getSongsForTag(Tag(itemId)).register { subItemsList.setAll(it) }
+        joins.getSongsForTag(Tag(itemId)).register { subItems.setAll(it) }
     }
 
     private fun onItemRemove(song: Song) {
-        joins.deleteTagSongJoin(TagSongJoin(item.id, song.id)).register { subItemsList.remove(song) }
+        joins.deleteTagSongJoin(TagSongJoin(item.id, song.id)).register { subItems.remove(song) }
     }
 
     override val subItemDetailActivityClass = SongDetailActivity::class

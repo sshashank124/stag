@@ -1,4 +1,4 @@
-package com.phaqlow.stag.ui.home
+package com.phaqlow.stag.ui.item
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,22 +10,22 @@ import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.phaqlow.stag.R
 import com.phaqlow.stag.model.dao.ItemsDb
-import com.phaqlow.stag.util.C
-import com.phaqlow.stag.util.collections.RxFilterableSortedList
-import com.phaqlow.stag.util.contracts.Item
+import com.phaqlow.stag.util.rxcollections.RxFilterableSortedVector
+import com.phaqlow.stag.model.entity.Item
+import com.phaqlow.stag.util.ITEM_EXTRA_ID
 import com.phaqlow.stag.util.setVisible
 import com.phaqlow.stag.util.toUi
-import com.phaqlow.stag.util.ui.LifecycleFragment
-import com.phaqlow.stag.util.ui.SelectableRecyclerAdapter
+import com.phaqlow.stag.util.disposables.DisposableFragment
+import com.phaqlow.stag.util.recycleradapters.SelectableRecyclerAdapter
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_list.*
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
 
 
-abstract class ListFragment<T: Item> : LifecycleFragment() {
+abstract class ListFragment<T: Item> : DisposableFragment() {
     protected lateinit var itemsDb: ItemsDb<T>
-    protected val itemsList = RxFilterableSortedList<T>()
+    protected val items = RxFilterableSortedVector<T>()
     protected lateinit var itemsRecyclerAdapter: SelectableRecyclerAdapter<T>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
@@ -45,7 +45,7 @@ abstract class ListFragment<T: Item> : LifecycleFragment() {
     }
 
     override fun onResume() { super.onResume(); loadData() }
-    protected open fun loadData() { itemsDb.getAllItems().register { itemsList.setAll(it) } }
+    protected open fun loadData() { itemsDb.getAllItems().register { items.setAll(it) } }
 
     protected lateinit var searchBoxChanges: Observable<String>
     protected open fun setRxBindings() {
@@ -58,7 +58,8 @@ abstract class ListFragment<T: Item> : LifecycleFragment() {
 
         searchBoxChanges
                 .debounce(500, TimeUnit.MILLISECONDS)
-                .distinctUntilChanged().toUi()
+                .distinctUntilChanged()
+                .toUi()
                 .register { filterItemsOnSearchText(it.toLowerCase()) }
 
         // clear search box
@@ -74,8 +75,8 @@ abstract class ListFragment<T: Item> : LifecycleFragment() {
 
     protected abstract val detailActivityClass: KClass<*>
     private fun launchItemDetailActivity(item: T) =
-        startActivity(Intent(context, detailActivityClass.java).putExtra(C.EXTRA_ITEM_ID, item.id()))
+        startActivity(Intent(context, detailActivityClass.java).putExtra(ITEM_EXTRA_ID, item.id))
 
     private fun filterItemsOnSearchText(searchText: String) =
-        itemsList.filter { it.name().toLowerCase().contains(searchText) }
+        items.filter { it.name.toLowerCase().contains(searchText) }
 }

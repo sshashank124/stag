@@ -6,15 +6,14 @@ import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 import android.arch.persistence.room.TypeConverter
 import android.arch.persistence.room.TypeConverters
-import com.phaqlow.stag.util.contracts.Item
 
 
 @Entity(tableName = "songs", indices = [(Index("uri", unique = true))])
 @TypeConverters(Song.DataConverter::class)
 data class Song(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
-    val name: String,
+    override val id: Long,
+    override val name: String,
     val artists: List<String>?,
     val album: String,
     val duration_ms: Long,
@@ -24,9 +23,6 @@ data class Song(
     @Ignore constructor(name: String) : this(name, null, "", 0, "")
     @Ignore constructor(name: String, artists: List<String>?, album: String, duration_ms: Long, uri: String)
             : this(0, name, artists, album, duration_ms, uri)
-
-    @Ignore override fun id() = id
-    @Ignore override fun name() = name
 
     // TODO: Sort songs by recently added (as well? (for tags))
 

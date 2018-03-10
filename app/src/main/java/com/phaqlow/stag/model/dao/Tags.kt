@@ -10,8 +10,7 @@ import io.reactivex.Single
 class Tags(private val tagDao: TagDao) : ItemsDb<Tag> {
 
     override fun insertItem(item: Tag) = Single.fromCallable {
-        val id = tagDao.insertTag(item)
-        if (id != -1L) id else tagDao.getId(item.name)
+        tagDao.insertTag(item).let { if (it == -1L) tagDao.getId(item.name) else it }
     }.ioToUi()
 
     override fun insertItems(vararg items: Tag) = Single.fromCallable {

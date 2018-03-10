@@ -12,12 +12,13 @@ import com.phaqlow.stag.model.dao.Tags
 import com.phaqlow.stag.model.entity.Song
 import com.phaqlow.stag.model.entity.Tag
 import com.phaqlow.stag.model.entity.TagSongJoin
-import com.phaqlow.stag.util.C
+import com.phaqlow.stag.util.PREF_IS_LAUNCHED_BEFORE
+import com.phaqlow.stag.util.SPOTIFY_EXTRA_ACCESS_TOKEN
 import com.phaqlow.stag.util.ioToUi
 import com.phaqlow.stag.util.longToast
 import com.phaqlow.stag.util.setFlag
 import com.phaqlow.stag.util.shortSnackbar
-import com.phaqlow.stag.util.ui.LifecycleActivity
+import com.phaqlow.stag.util.disposables.DisposableActivity
 import com.spotify.sdk.android.player.Spotify
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -30,7 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 
 
-class ImportSongsActivity : LifecycleActivity() {
+class ImportSongsActivity : DisposableActivity() {
     @Inject lateinit var tagsDb: Tags
     @Inject lateinit var songsDb: Songs
     @Inject lateinit var joinsDb: TagSongJoins
@@ -40,7 +41,7 @@ class ImportSongsActivity : LifecycleActivity() {
         setContentView(R.layout.activity_import_songs)
         setLoadingAnimation(R.drawable.anim_stag_loading)
 
-        intent.getStringExtra(C.EXTRA_SPOTIFY_ACCESS_TOKEN)
+        intent.getStringExtra(SPOTIFY_EXTRA_ACCESS_TOKEN)
                 ?.let { loadUserDataFromSpotify(SpotifyApi().setAccessToken(it).service) }
     }
 
@@ -86,13 +87,11 @@ class ImportSongsActivity : LifecycleActivity() {
 
     private fun finishedLoadingData(successful: Boolean) {
         if (successful) {
-            setFlag(C.PREF_IS_LAUNCHED_BEFORE)
+            setFlag(PREF_IS_LAUNCHED_BEFORE)
             setLoadingAnimation(R.drawable.anim_stag_complete)
             Handler().postDelayed({ notifyAndFinish("Playlists loaded successfully") },
                     resources.getInteger(R.integer.anim_stag_complete_duration).toLong())
-        } else {
-            notifyAndFinish("Failed loading some playlists. Wizard will rerun on next launch")
-        }
+        } else notifyAndFinish("Failed loading some playlists. Wizard will rerun on next launch")
     }
 
     private fun setLoadingAnimation(@DrawableRes animation: Int) {
@@ -109,10 +108,5 @@ class ImportSongsActivity : LifecycleActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         longToast("User data import interrupted. Wizard will rerun on next launch")
-    }
-
-    override fun onDestroy() {
-        Spotify.destroyPlayer(this)
-        super.onDestroy()
     }
 }

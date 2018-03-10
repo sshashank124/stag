@@ -6,7 +6,8 @@ import com.phaqlow.stag.model.dao.TagSongJoins
 import com.phaqlow.stag.model.entity.Song
 import com.phaqlow.stag.model.entity.Tag
 import com.phaqlow.stag.model.entity.TagSongJoin
-import com.phaqlow.stag.ui.home.DetailActivity
+import com.phaqlow.stag.player.MusicPlayerServiceConnection
+import com.phaqlow.stag.ui.item.DetailActivity
 import com.phaqlow.stag.ui.tags.TagDetailActivity
 import com.phaqlow.stag.ui.tags.TagsCompactRecyclerAdapter
 import com.phaqlow.stag.util.orIfBlank
@@ -20,7 +21,7 @@ class SongDetailActivity : DetailActivity<Song, Tag>() {
     @Inject lateinit var joins: TagSongJoins
 
     override fun onDepsInjected() {
-        subItemsRecyclerAdapter = TagsCompactRecyclerAdapter(subItemsList, ::onItemRemove)
+        subItemsRecyclerAdapter = TagsCompactRecyclerAdapter(subItems, ::onItemRemove)
         itemsDb = songsDb
     }
 
@@ -29,6 +30,7 @@ class SongDetailActivity : DetailActivity<Song, Tag>() {
     }
 
     override fun playItem() {
+        MusicPlayerServiceConnection.musicPlayer?.playSongs(item)
     }
 
     override fun saveChanges() {}
@@ -41,11 +43,11 @@ class SongDetailActivity : DetailActivity<Song, Tag>() {
     }
 
     override fun loadSubItemsData(itemId: Long) {
-        joins.getTagsForSong(Song(itemId)).register { subItemsList.setAll(it) }
+        joins.getTagsForSong(Song(itemId)).register { subItems.setAll(it) }
     }
 
     private fun onItemRemove(tag: Tag) {
-        joins.deleteTagSongJoin(TagSongJoin(tag.id, item.id)).register { subItemsList.remove(tag) }
+        joins.deleteTagSongJoin(TagSongJoin(tag.id, item.id)).register { subItems.remove(tag) }
     }
 
     override val subItemDetailActivityClass = TagDetailActivity::class

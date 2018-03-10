@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package com.phaqlow.stag.util
 
 import android.content.Context
@@ -22,7 +20,7 @@ fun View.setVisible(visible: Boolean) {
 
 fun String.orIfBlank(alternative: String) = if (isBlank()) alternative else this
 
-fun <T, U, V> List<T>.productWith(other: List<U>, combiner: (T, U) -> V): List<V> =
+inline fun <T, U, V> List<T>.productWith(other: List<U>, combiner: (T, U) -> V): List<V> =
         this.flatMap { t -> other.map { u -> combiner(t, u) } }
 
 // Changing Schedulers
@@ -42,4 +40,4 @@ fun Context.longToast(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_LONG
 fun shortSnackbar(msg: String, view: View) = Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show()
 
 // Log
-fun log(msg: String) = Log.d(C.LOG_TAG, msg)
+fun log(msg: String) = Log.d(LOG_TAG, msg)

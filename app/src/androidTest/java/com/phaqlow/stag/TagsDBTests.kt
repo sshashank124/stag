@@ -6,7 +6,7 @@ import android.support.test.runner.AndroidJUnit4
 import com.phaqlow.stag.model.dao.Songs
 import com.phaqlow.stag.model.dao.TagSongJoins
 import com.phaqlow.stag.model.dao.Tags
-import com.phaqlow.stag.model.database.AppDatabase
+import com.phaqlow.stag.model.AppDatabase
 import com.phaqlow.stag.model.entity.Song
 import com.phaqlow.stag.model.entity.Tag
 import com.phaqlow.stag.model.entity.TagSongJoin

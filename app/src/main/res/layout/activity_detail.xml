@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/black"
     android:focusableInTouchMode="true"
-    tools:context=".ui.home.DetailActivity"
+    tools:context=".ui.item.DetailActivity"
     tools:ignore="Overdraw">
 
     <LinearLayout
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/spacing_comfort"
             app:srcCompat="@drawable/ic_edit"
-            android:tint="@color/white"
+            android:tint="@color/accent"
             android:background="@android:color/transparent"
             android:contentDescription="@string/edit_save"/>
     </LinearLayout>

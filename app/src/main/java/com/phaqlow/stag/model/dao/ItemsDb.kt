@@ -1,11 +1,10 @@
 package com.phaqlow.stag.model.dao
 
-import com.phaqlow.stag.util.contracts.Item
 import io.reactivex.Completable
 import io.reactivex.Single
 
 
-interface ItemsDb<T: Item> {
+interface ItemsDb<T> {
 
     fun insertItem(item: T): Single<Long>
 

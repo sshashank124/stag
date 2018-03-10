@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.phaqlow.stag.R
-import com.phaqlow.stag.util.ui.LifecycleFragment
+import com.phaqlow.stag.util.disposables.DisposableFragment
 
 
-class PlaylistFragment : LifecycleFragment() {
+class PlaylistFragment : DisposableFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View
             = inflater.inflate(R.layout.fragment_playlist, container, false)

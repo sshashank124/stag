@@ -1,22 +1,20 @@
-package com.phaqlow.stag.util.collections
+package com.phaqlow.stag.util.rxcollections
 
-import com.phaqlow.stag.util.C
+import com.phaqlow.stag.util.RX_OP_SETALL
 
 
-class RxFilterableSortedList<T : Comparable<T>> : RxSortedList<T>() {
+class RxFilterableSortedVector<T : Comparable<T>> : RxSortedVector<T>() {
     val referenceList = arrayListOf<T>()
     private var filterConstraint: (T) -> Boolean = { true }
 
     override fun addImpl(value: T): Int? {
         referenceList.add(value)
-        if (!filterConstraint(value)) return null
-        return super.addImpl(value)
+        return filterConstraint(value).takeIf { true }?.let { super.addImpl(value) }
     }
 
     override fun removeImpl(value: T): Int? {
         referenceList.remove(value)
-        if (!filterConstraint(value)) return null
-        return super.removeImpl(value)
+        return filterConstraint(value).takeIf { true }?.let { super.removeImpl(value) }
     }
 
     override fun setAllImpl(data: List<T>) {
@@ -29,7 +27,7 @@ class RxFilterableSortedList<T : Comparable<T>> : RxSortedList<T>() {
         if (constraint == filterConstraint) return
         filterConstraint = constraint
         filterImpl()
-        subject.onNext(Pair(C.RX_OP_SETALL, 0))
+        subject.onNext(Pair(RX_OP_SETALL, 0))
     }
 
     private fun filterImpl() = super.setAllImpl(referenceList.filter(filterConstraint))

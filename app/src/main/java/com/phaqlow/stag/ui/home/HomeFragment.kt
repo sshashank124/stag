@@ -8,15 +8,15 @@ import com.jakewharton.rxbinding2.support.design.widget.selections
 import com.phaqlow.stag.R
 import com.phaqlow.stag.ui.songs.SongsListFragment
 import com.phaqlow.stag.ui.tags.TagsListFragment
-import com.phaqlow.stag.util.C
-import com.phaqlow.stag.util.ui.LifecycleFragment
+import com.phaqlow.stag.util.TAB_SONGS
+import com.phaqlow.stag.util.TAB_TAGS
+import com.phaqlow.stag.util.disposables.DisposableFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
-class HomeFragment : LifecycleFragment() {
+class HomeFragment : DisposableFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View
-            = inflater.inflate(R.layout.fragment_home, container, false)
+                              savedInstanceState: Bundle?): View = inflater.inflate(R.layout.fragment_home, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,15 +25,15 @@ class HomeFragment : LifecycleFragment() {
 
     private fun initViews() {
         tabs.selections().register { setTab(it.position) }
-        tabs.getTabAt(C.TAB_TAGS)?.select()
+        tabs.getTabAt(TAB_TAGS)?.select()
     }
 
-    private fun setTab(tab: Int) {
-        val fragment = when(tab) {
-            C.TAB_TAGS  -> TagsListFragment()
-            C.TAB_SONGS -> SongsListFragment()
-            else -> TagsListFragment()
-        }
-        childFragmentManager.beginTransaction().replace(R.id.container, fragment).commit()
+    private fun setTab(tabIndex: Int) =
+            childFragmentManager.beginTransaction().replace(R.id.container, getFragmentAt(tabIndex)).commit()
+
+    private fun getFragmentAt(tabIndex: Int) = when (tabIndex) {
+        TAB_TAGS -> TagsListFragment()
+        TAB_SONGS -> SongsListFragment()
+        else -> TagsListFragment()
     }
 }
